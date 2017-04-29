@@ -82,6 +82,11 @@ struct magicParticle {
 		order = imaginaries.size();
 	}
 
+
+	void setBase(mpn bs) {
+		base = bs;
+	}
+
 	void addComplexPart(mpn val, char imtype) {
 		imaginaries.push_back(val);
 		natures[imaginaries.size() - 1] = imtype;
@@ -108,10 +113,6 @@ struct magicParticle {
 		natures = ch;
 	}
 	*/
-
-	void setBase(mpn bs) {
-		base = bs;
-	}
 
 	/*Operator '+' overriding for MP
 	*/
@@ -160,6 +161,68 @@ struct magicParticle {
 		
 		return MP(mBase, mImaginaries, mNatures);
 	}
+	
+	/*Operator '+' overriding for #mpn
+	*/
+	MP MP::operator+(mpn& second) {
+		return MP(base + second, imaginaries, natures);
+	}
+
+	/*Operator '-' overriding for #mpn
+	*/
+	MP MP::operator-(mpn& second) {
+		return MP(base - second, imaginaries, natures);
+	}
+
+	/*Operator '-' overriding for MP
+	*/
+	MP MP::operator-(MP& second) {
+
+		mpn mBase;
+		mBase = base - second.base;
+
+		vector<mpn> mImaginaries;
+
+		char* mNatures = natures;
+
+		for (int i = 0; i < imaginaries.size(); i++)
+		{
+			for (int j = 0; j < second.imaginaries.size(); j++)
+			{
+				// for parts with the same nature
+				if (natures[i] == second.natures[j]) {
+					mImaginaries.push_back(imaginaries[i] - second.imaginaries[j]);
+					break;
+				}
+				else if (j + 1 == second.imaginaries.size()) {
+					// this [i] part of first has unique nature, must add it to answer
+					mImaginaries.push_back(imaginaries[i]);
+					mNatures[mImaginaries.size() - 1] = natures[i];
+				}
+			}
+		}
+
+		for (int i = 0; i < second.imaginaries.size(); i++)
+		{
+			for (int j = 0; j < imaginaries.size(); j++)
+			{
+				if (second.natures[i] == natures[j]) {
+					break;
+				}
+				else if (j + 1 == imaginaries.size()) {
+					// this [i] part of second has unique nature, must add it to answer
+					mImaginaries.push_back(second.imaginaries[i]*(-1));
+					mNatures[mImaginaries.size() - 1] = second.natures[i];
+				}
+			}
+		}
+
+		mNatures[mImaginaries.size()] = '\0'; // for correct char* array
+
+		return MP(mBase, mImaginaries, mNatures);
+	}
+	
+
 };
 
 

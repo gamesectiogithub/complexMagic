@@ -42,6 +42,11 @@ int main()
 
 	answer.toString();
 
+	cout << "plus 7: " << endl;
+	mpn rr = 7;
+	answer = answer + rr;
+	answer.toString();
+
 	cout << "Another " << endl; 
 	
 	MP cn6(4, 600, 'y');
@@ -61,6 +66,10 @@ int main()
 	
 	answer = cn6 + cn7;
 	cout << "their SUM:" << endl;
+	answer.toString();
+
+	answer = cn6 - cn7;
+	cout << "their DIF:" << endl;
 	answer.toString();
 
 	cout << "Press any key and Enter to exit";
