@@ -42,6 +42,27 @@ int main()
 
 	answer.toString();
 
+	cout << "Another " << endl; 
+	
+	MP cn6(4, 600, 'y');
+	cn6.setBase(40);
+	cn6.addComplexPart(3, 'p');
+	cn6.addComplexPart(7, 'k');
+	cn6.addComplexPart(9, 'n');
+	cn6.toString();
+
+	MP cn7(8,-350,'y');
+	cn7.addComplexPart(-2, 'p');
+	cn7.addComplexPart(-2, 'k');
+	cn7.addComplexPart(-3, 'm');
+	cn7.addComplexPart(-3, 't');
+	cn7.toString();
+
+	
+	answer = cn6 + cn7;
+	cout << "their SUM:" << endl;
+	answer.toString();
+
 	cout << "Press any key and Enter to exit";
 	cin >> sChar;
 

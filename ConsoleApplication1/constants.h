@@ -22,16 +22,15 @@ struct magicParticle {
 	vector<mpn> imaginaries;
 	char* natures;
 
-	MP(void) {
+	MP( void) {
 
-		type = COMPLEX;
-		order = 2;
-		base = -1;
-		imaginaries.push_back(1);
-		imaginaries.push_back(-2);
+		base = 0;
+		imaginaries.push_back(0);
 		natures = new char;
 		natures[0] = 'i';
-		natures[1] = 'j';
+		natures[1] = '\0';
+		setAutoOrder();
+		setAutoType();
 	};
 
 	MP( mpn mpBase, mpn mpIm) : base(mpBase), order(1)
@@ -39,12 +38,23 @@ struct magicParticle {
 		imaginaries.push_back(mpIm);
 		natures = new char;
 		natures[0] = 'i';
+		natures[1] = '\0';
 	}
 
-	MP(mpn mpBase, vector<mpn> mpImaginaries, char* mpNatures) : base(mpBase)
+	MP(mpn mpBase, mpn mpIm, char mpImType) : base(mpBase), order(1)
+	{
+		imaginaries.push_back(mpIm);
+		natures = new char;
+		natures[0] = mpImType;
+		natures[1] = '\0';
+	}
+
+	MP( mpn mpBase, vector<mpn> mpImaginaries, char* mpNatures) : base(mpBase)
 	{
 		imaginaries = mpImaginaries;
 		natures = mpNatures;
+		setAutoOrder();
+		setAutoType();
 	}
 
 
@@ -52,30 +62,67 @@ struct magicParticle {
 	*/
 	void toString() {
 		
-		// base|imag[n]|nature[n]|imag[n]|nature[n]...
+		// base|imag[n]|nature[n]...
 		cout << base;
 
 		for (int i = 0; i < imaginaries.size(); i++)
 		{
-			imaginaries[i] > 0 ? cout << '+' << imaginaries[i] : cout << imaginaries[i];
+			imaginaries[i] >= 0 ? cout << '+' << imaginaries[i] : cout << imaginaries[i];
 			cout << natures[i];
 		}
 
 		cout << endl;
 	};
 
+	void setAutoType() {
+		type = COMPLEX;
+	}
+
+	void setAutoOrder() {
+		order = imaginaries.size();
+	}
+
+	void addComplexPart(mpn val, char imtype) {
+		imaginaries.push_back(val);
+		natures[imaginaries.size() - 1] = imtype;
+		natures[imaginaries.size()] = '\0';
+	}
+
+
+	/*Use right before setNatures. NOT SAFE METHOD
+	
+	void setImaginaries(unsigned total, mpn im, ...) {
+		imaginaries.erase(imaginaries.begin(), imaginaries.end());
+		mpn *p = &im;
+		while (total--!=0)
+		{
+			imaginaries.push_back(*p);
+			p++
+		}		
+	}*/
+
+	/*Use right after setImaginaries. NOT SAFE METHOD
+	
+	void setNatures(char* ch) {
+		natures = "";
+		natures = ch;
+	}
+	*/
+
+	void setBase(mpn bs) {
+		base = bs;
+	}
+
 	/*Operator '+' overriding for MP
 	*/
 	MP MP::operator+(MP& second) {
-
-		// sorting 
-
 
 		mpn mBase;
 		mBase = base + second.base;
 
 		vector<mpn> mImaginaries;
-		vector<int> additionalImags;
+
+		char* mNatures = natures;
 		
 		for (int i = 0; i < imaginaries.size(); i++)
 		{
@@ -84,28 +131,33 @@ struct magicParticle {
 				// sum for parts with the same nature
 				if (natures[i] == second.natures[j]) {
 					mImaginaries.push_back(imaginaries[i] + second.imaginaries[j]);
+					break;
+				}
+				else if (j + 1 == second.imaginaries.size()) {
+					// this [i] part of first has unique nature, must add it to answer
+					mImaginaries.push_back(imaginaries[i]);
+					mNatures[mImaginaries.size() - 1] = natures[i];
 				}
 			}
 		}
 
-		// remeber unique natures 
-
-			
-
-
-		char* mNatures = natures;
-
-		int ii = imaginaries.size(); //count members of answer MP
-
-		for (int addPart : additionalImags)
+		for (int i = 0; i < second.imaginaries.size(); i++)
 		{
-			// add them to answer
-			mImaginaries.push_back(second.imaginaries[additionalImags[addPart]]);
-			mNatures[ii++] = second.natures[additionalImags[addPart]];
+			for (int j = 0; j < imaginaries.size(); j++)
+			{
+				if (second.natures[i] == natures[j]) {
+					break;
+				}
+				else if (j + 1 == imaginaries.size()) {
+					// this [i] part of second has unique nature, must add it to answer
+					mImaginaries.push_back(second.imaginaries[i]);
+					mNatures[mImaginaries.size() - 1] = second.natures[i];
+				}
+			}
 		}
 
-		mNatures[ii] = '\0';
-
+		mNatures[mImaginaries.size()] = '\0'; // for correct char* array
+		
 		return MP(mBase, mImaginaries, mNatures);
 	}
 };
