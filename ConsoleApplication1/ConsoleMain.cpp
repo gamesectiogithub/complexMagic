@@ -2,8 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "constants.h"
-#include "ConsoleMain.h"
 
 using namespace std;
 
@@ -25,6 +23,7 @@ float fFloat = -2e15F; // 4 bytes -3.4*10^38 +3.4*10^38
 double dDouble = -2e15; // 8 bytes -3.4*10^308 +3.4*10^308
 
 char* hi = "Comples Magic Application 2017 v";
+
 
 int main()
 {
@@ -71,6 +70,50 @@ int main()
 	answer = cn6 - cn7;
 	cout << "their DIF:" << endl;
 	answer.toString();
+
+	cout << "their DIF with ++ prefix" << endl;
+	(++answer).toString();
+	answer.toString();
+	cout << "their DIF with x2 ++ prefix" << endl;
+	(++++answer).toString();
+	answer.toString();
+	cout << "their DIF with x3 ++ prefix" << endl;
+	(++++++answer).toString();
+	answer.toString();
+	cout << "their DIF with x4 ++ prefix" << endl;
+	(++++++++answer).toString();
+	answer.toString();
+	cout << "their DIF with -- prefix" << endl;
+	(--answer).toString();
+	answer.toString();
+	cout << "their DIF with x2 -- prefix" << endl;
+	(----answer).toString();
+	answer.toString();
+	cout << "their DIF with x3 -- prefix" << endl;
+	(------answer).toString();
+	answer.toString();
+	cout << "their DIF with x4 -- prefix" << endl;
+	(--------answer).toString();
+	answer.toString();
+	cout << endl;
+	cout << endl;
+
+	cout << "Simple G = 1;" << endl;
+	int g = 1;
+	cout << g++ << endl;
+	cout << g << endl;
+	cout << g++ << endl;
+	cout << g << endl;
+	cout << g++ << endl;
+	cout << g << endl;
+	cout << "answer:" << endl;
+	cout << answer++ << endl;
+	answer.toString();
+	cout << answer++ << endl;
+	answer.toString();
+	cout << answer++ << endl;
+	answer.toString();
+
 
 	cout << "Press any key and Enter to exit";
 	cin >> sChar;

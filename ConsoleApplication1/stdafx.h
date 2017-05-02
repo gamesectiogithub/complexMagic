@@ -11,6 +11,12 @@
 #include <tchar.h>
 #include <iostream>
 
+#include "constants.h"
+#include "ConsoleMain.h"
+#include "magicParticles.h"
+
+
+
 
 
 // TODO: reference additional headers your program requires here
