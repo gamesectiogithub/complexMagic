@@ -49,3 +49,5 @@ Temporary Items
 #visual studio generated
 ipch
 Debug
+.vc
+CMagic.VC.db
