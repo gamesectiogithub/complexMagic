@@ -114,10 +114,12 @@ int main()
 	cout << answer++ << endl;
 	answer.toString();
 
-
+	cout << "And now we will renaturaize it: k ->> t " << endl;
+	answer.reNaturization('k', 't');
+	answer.toString();
 	cout << "Press any key and Enter to exit";
 	cin >> sChar;
-
+	
     return 0;
 }
 

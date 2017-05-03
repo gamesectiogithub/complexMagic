@@ -11,21 +11,34 @@
 
 /* mystic particles have types
 */
-enum MPType { REAL, COMPLEX, MULTYR, MULTYC }; 
+enum MPType { REAL, COMPLEX, MULTYR, MULTYC };
+enum MPClass {QNT, TLE, TFU, ATM, AMS, INV, EXO};
 
 #define mpn short
 #define MP magicParticle
 
+typedef  mpn (*energonRule_func)(const mpn&,const mpn&);
+
+
 using namespace std;
+
+/*functions for renaturization of bases of energons*/
+mpn reNat_linear(const mpn&, const mpn&);
+mpn reNat_quadro(const mpn&, const mpn&);
+mpn reNat_straight(const mpn&, const mpn&);
 
 
 struct magicParticle {
 
+private:
 	MPType type;
 	char order; // use like a number
 	mpn base;
 	vector<mpn> imaginaries;
 	char* natures;
+	energonRule_func reNaturize;
+
+public:
 
 	MP(void) {
 
@@ -36,6 +49,8 @@ struct magicParticle {
 		natures[1] = '\0';
 		setAutoOrder();
 		setAutoType();
+		setAutoRule();
+
 	};
 
 	MP(mpn mpBase, mpn mpIm) : base(mpBase), order(1)
@@ -44,6 +59,8 @@ struct magicParticle {
 		natures = new char;
 		natures[0] = 'i';
 		natures[1] = '\0';
+		setAutoType();
+		setAutoRule();
 	}
 
 	MP(mpn mpBase, mpn mpIm, char mpImType) : base(mpBase), order(1)
@@ -52,6 +69,8 @@ struct magicParticle {
 		natures = new char;
 		natures[0] = mpImType;
 		natures[1] = '\0';
+		setAutoType();
+		setAutoRule();
 	}
 
 	MP(mpn mpBase, vector<mpn> mpImaginaries, char* mpNatures) : base(mpBase)
@@ -60,10 +79,33 @@ struct magicParticle {
 		natures = mpNatures;
 		setAutoOrder();
 		setAutoType();
+		setAutoRule();
 	}
 
+	
+	/*function for converting energons to another nature*/
+	void reNaturization(char nature_from, char nature_to, energonRule_func f = reNat_straight)
+	{
+		mpn base_f = 0, base_t = 0;
+		
+		for (unsigned i = 0; i < imaginaries.size(); i++)
+		{
+			if (natures[i] == nature_from)
+			{
+				base_f = (mpn)i;
+			}
+			if (natures[i] == nature_to)
+			{
+				base_t = (mpn)i;
+			}
+		}
 
-	/*print Mystic Number in console
+		imaginaries[base_f] = f(imaginaries[base_f], imaginaries[base_t]);
+		natures[base_f] = nature_to;
+		
+	}
+
+	/*print Mystic Number with cout & endl
 	*/
 	void toString() {
 
@@ -87,7 +129,10 @@ struct magicParticle {
 		order = (char)imaginaries.size();
 	}
 
-
+	void setAutoRule() {
+		reNaturize = reNat_straight;
+	}
+	
 	void setBase(mpn bs) {
 		base = bs;
 	}
@@ -98,26 +143,6 @@ struct magicParticle {
 		natures[imaginaries.size()] = '\0';
 	}
 
-
-	/*Use right before setNatures. NOT SAFE METHOD
-
-	void setImaginaries(unsigned total, mpn im, ...) {
-	imaginaries.erase(imaginaries.begin(), imaginaries.end());
-	mpn *p = &im;
-	while (total--!=0)
-	{
-	imaginaries.push_back(*p);
-	p++
-	}
-	}*/
-
-	/*Use right after setImaginaries. NOT SAFE METHOD
-
-	void setNatures(char* ch) {
-	natures = "";
-	natures = ch;
-	}
-	*/
 
 	/*Operator '+' overriding for MP
 	*/
@@ -227,15 +252,19 @@ struct magicParticle {
 		return MP(mBase, mImaginaries, mNatures);
 	}
 
+	/*Operator pre '++' overriding for MP*/
+	friend MP& operator ++ (MP& f);
+	/*Operator pre '--' overriding for MP*/
+	friend MP& operator -- (MP& f);
+	/*Operator post '++' overriding for MP*/
+	friend MP operator ++ (MP& f, int);
+	/*Operator post '--' overriding for MP*/
+	friend MP& operator -- (MP& f, int);
+	/*Operator << for std::cout with MP*/
+	friend ostream& operator << (ostream& os, const MP& f);
+
 };
 
-/*Operator pre '++' overriding for #mpn*/
-MP& operator ++ (MP& f);
-/*Operator pre '--' overriding for #mpn*/
-MP& operator -- (MP& f);
-/*Operator post '++' overriding for #mpn*/
-MP operator ++ (MP& f, int);
-/*Operator post '--' overriding for #mpn*/
-MP& operator -- (MP& f, int);
-/*Operator << for std::cout*/
-ostream& operator << (ostream& os, const MP& f);
+
+
+
