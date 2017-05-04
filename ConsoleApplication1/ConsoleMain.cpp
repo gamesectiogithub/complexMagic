@@ -40,10 +40,12 @@ int main()
 	MP answer = cn + cn2;
 
 	answer.toString();
-
-	cout << "plus 7: " << endl;
+	cout << "plus rr = 7: " << endl;
 	mpn rr = 7;
 	answer = answer + rr;
+	answer.toString();
+	cout << "plus 5: " << endl;
+	answer = answer + 5;
 	answer.toString();
 
 	cout << "Another " << endl; 
@@ -117,8 +119,26 @@ int main()
 	cout << "And now we will renaturaize it: k ->> t " << endl;
 	answer.reNaturization('k', 't');
 	answer.toString();
+
+	cout << endl;
+	cout << endl;
+
+	for (int i = 0; i <= 150; i++) {
+	
+		if (i == 13) i = 14;
+		cout << i << ' ' << (char)i;
+		cout << "  ";
+		
+		if (i % 10 == 0) cout << endl;
+	}
+
+	cout << endl;
+
+
+	/* ending*/
 	cout << "Press any key and Enter to exit";
 	cin >> sChar;
+
 	
     return 0;
 }

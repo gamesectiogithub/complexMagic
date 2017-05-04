@@ -1,14 +1,22 @@
 
 #include "stdafx.h"
 
-/*Operator pre '++' overriding for #mpn
+
+
+/*Operator '+' overriding for int*/
+MP MP::operator+(const int& second) {
+	return MP(base + (mpn)second, imaginaries, natures);
+}
+
+
+/*Operator pre '++' overriding for MP
 */
 MP& operator ++ (MP& f) {
 	++f.base;
 	return f;
 }
 
-/*Operator pre '--' overriding for #mpn
+/*Operator pre '--' overriding for MP
 */
 MP& operator -- (MP& f) {
 	--f.base;
@@ -49,11 +57,11 @@ mpn reNat_straight(const mpn& a, const mpn& b)
 mpn reNat_linear(const mpn& a, const mpn& b)
 {
 	mpn A;
-	return A = a + b;
+	return A = a*10 + b + a/b + b/a;
 }
 
 mpn reNat_quadro(const mpn& a, const mpn& b)
 {
 	mpn A;
-	return A = a + b;
+	return A = a*a - b;
 }

@@ -11,8 +11,6 @@
 
 /* mystic particles have types
 */
-enum MPType { REAL, COMPLEX, MULTYR, MULTYC };
-enum MPClass {QNT, TLE, TFU, ATM, AMS, INV, EXO};
 
 #define mpn short
 #define MP magicParticle
@@ -30,17 +28,25 @@ mpn reNat_straight(const mpn&, const mpn&);
 
 struct magicParticle {
 
+public:
+	enum MPType { REAL, COMPLEX, MULTYR, MULTYC };
+	enum MPClass { QNT, TLE, TFU, ATM, AMS, INV, EXO };
+
 private:
-	MPType type;
+	const MPType type;
 	char order; // use like a number
 	mpn base;
 	vector<mpn> imaginaries;
 	char* natures;
 	energonRule_func reNaturize;
 
+	int* n = NULL;
+	bool conserved = false; // if true -> methods must not work: stich,
+
 public:
 
-	MP(void) {
+	MP(void) : type(COMPLEX)
+	{
 
 		base = 0;
 		imaginaries.push_back(0);
@@ -48,40 +54,42 @@ public:
 		natures[0] = 'i';
 		natures[1] = '\0';
 		setAutoOrder();
-		setAutoType();
 		setAutoRule();
 
 	};
 
-	MP(mpn mpBase, mpn mpIm) : base(mpBase), order(1)
+	MP(mpn mpBase, mpn mpIm) : base(mpBase), order(1), type(COMPLEX)
 	{
 		imaginaries.push_back(mpIm);
 		natures = new char;
 		natures[0] = 'i';
 		natures[1] = '\0';
-		setAutoType();
 		setAutoRule();
 	}
 
-	MP(mpn mpBase, mpn mpIm, char mpImType) : base(mpBase), order(1)
+	MP(mpn mpBase, mpn mpIm, char mpImType) : base(mpBase), order(1), type(COMPLEX)
 	{
 		imaginaries.push_back(mpIm);
 		natures = new char;
 		natures[0] = mpImType;
 		natures[1] = '\0';
-		setAutoType();
 		setAutoRule();
 	}
 
-	MP(mpn mpBase, vector<mpn> mpImaginaries, char* mpNatures) : base(mpBase)
+	MP(mpn mpBase, vector<mpn> mpImaginaries, char* mpNatures) : base(mpBase), type(COMPLEX)
 	{
 		imaginaries = mpImaginaries;
 		natures = mpNatures;
 		setAutoOrder();
-		setAutoType();
 		setAutoRule();
 	}
 
+	
+	~MP ()
+	{
+		delete[] n;
+	}
+	
 	
 	/*function for converting energons to another nature*/
 	void reNaturization(char nature_from, char nature_to, energonRule_func f = reNat_straight)
@@ -105,8 +113,7 @@ public:
 		
 	}
 
-	/*print Mystic Number with cout & endl
-	*/
+	/*print Mystic Number with cout & endl*/
 	void toString() {
 
 		// base|imag[n]|nature[n]...
@@ -120,10 +127,6 @@ public:
 
 		cout << endl;
 	};
-
-	void setAutoType() {
-		type = COMPLEX;
-	}
 
 	void setAutoOrder() {
 		order = (char)imaginaries.size();
@@ -143,10 +146,23 @@ public:
 		natures[imaginaries.size()] = '\0';
 	}
 
+	const MPType getType() {
+		return type;
+	}
 
-	/*Operator '+' overriding for MP
-	*/
-	MP MP::operator+(MP& second) {
+	/*stich all energons with the same nature*/
+	// void stich()
+
+	/*sort energons by order in LAM*/
+	// void sortOrder()
+
+	/*setters for energons*/
+
+	/*getters for energons*/
+
+
+	/*Operator '+' overriding for MP*/
+	MP MP::operator+(const MP& second) {
 
 		mpn mBase;
 		mBase = base + second.base;
@@ -192,21 +208,26 @@ public:
 		return MP(mBase, mImaginaries, mNatures);
 	}
 
-	/*Operator '+' overriding for #mpn
-	*/
-	MP MP::operator+(mpn& second) {
+	/*Operator '+' overriding for #mpn*/
+	MP MP::operator+(const mpn& second) {
 		return MP(base + second, imaginaries, natures);
 	}
 
-	/*Operator '-' overriding for #mpn
-	*/
-	MP MP::operator-(mpn& second) {
+	/*Operator '+' overriding for int*/
+	MP operator+(const int& second);
+
+	/*Operator '-' overriding for int*/
+	MP MP::operator-(const int& second) {
+		return MP(base - (mpn)second, imaginaries, natures);
+	}
+
+	/*Operator '-' overriding for #mpn*/
+	MP MP::operator-(const mpn& second) {
 		return MP(base - second, imaginaries, natures);
 	}
 
-	/*Operator '-' overriding for MP
-	*/
-	MP MP::operator-(MP& second) {
+	/*Operator '-' overriding for MP*/
+	MP MP::operator-(const MP& second) {
 
 		mpn mBase;
 		mBase = base - second.base;
@@ -252,6 +273,7 @@ public:
 		return MP(mBase, mImaginaries, mNatures);
 	}
 
+	//prototypes
 	/*Operator pre '++' overriding for MP*/
 	friend MP& operator ++ (MP& f);
 	/*Operator pre '--' overriding for MP*/
