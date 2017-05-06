@@ -4,7 +4,7 @@
 
 
 /*Operator '+' overriding for int*/
-MP MP::operator+(const int& second) {
+MP magicParticle::operator+(const int& second) {
 	return MP(base + (mpn)second, imaginaries, natures);
 }
 
@@ -50,8 +50,7 @@ ostream & operator<<(ostream & os, const MP & f)
 
 mpn reNat_straight(const mpn& a, const mpn& b)
 {
-	mpn A;
-	return A = a + b;
+	return a;
 }
 
 mpn reNat_linear(const mpn& a, const mpn& b)

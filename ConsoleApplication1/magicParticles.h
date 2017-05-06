@@ -82,6 +82,7 @@ public:
 		natures = mpNatures;
 		setAutoOrder();
 		setAutoRule();
+		stich();
 	}
 
 	
@@ -89,11 +90,42 @@ public:
 	{
 		delete[] n;
 	}
-	
+
+	/*deleting complex part with number {id}*/
+	void delEnergon(mpn id) {
+
+		imaginaries.erase(imaginaries.begin() + id);
+		char* dub = natures;
+		unsigned k = 0;
+
+		for (unsigned i = 0; i < imaginaries.size()+2; i++)
+		{
+			if (i != id) {
+				dub[k] = natures[i];
+			}
+			else {
+				k--;
+			}
+			++k;
+		}
+
+		natures = "";
+		natures = dub;
+	}
 	
 	/*function for converting energons to another nature*/
 	void reNaturization(char nature_from, char nature_to, energonRule_func f = reNat_straight)
 	{
+
+		// TODO: delete goto's , method reNaturization
+
+		for (unsigned i = 0; i < imaginaries.size(); i++)
+		{
+			if (natures[i] == nature_from) goto do_reNaturization;
+		} goto doNot_reNaturization;
+
+		do_reNaturization:
+
 		mpn base_f = 0, base_t = 0;
 		
 		for (unsigned i = 0; i < imaginaries.size(); i++)
@@ -108,9 +140,10 @@ public:
 			}
 		}
 
-		imaginaries[base_f] = f(imaginaries[base_f], imaginaries[base_t]);
-		natures[base_f] = nature_to;
-		
+			imaginaries[base_f] = f(imaginaries[base_f], imaginaries[base_t]);
+			natures[base_f] = nature_to;
+			stich();
+		doNot_reNaturization:;
 	}
 
 	/*print Mystic Number with cout & endl*/
@@ -146,20 +179,59 @@ public:
 		natures[imaginaries.size()] = '\0';
 	}
 
+	void addEnergon(mpn base, char nature) {
+		addComplexPart(base, nature);
+	}
+
 	const MPType getType() {
 		return type;
 	}
 
 	/*stich all energons with the same nature*/
-	// void stich()
+	void stich() {
+
+		// TODO: delete goto's , method stich
+
+		for (unsigned i = 0; i < imaginaries.size()-1; i++)
+		{
+			for (unsigned j = i+1; j < imaginaries.size(); j++)
+			{
+				if (natures[i] == natures[j]) {
+					imaginaries[i] = imaginaries[i] + imaginaries[j];
+					delEnergon(j);
+				}
+			
+			}
+		}
+
+	}
 
 	/*sort energons by order in LAM*/
 	// void sortOrder()
 
 	/*setters for energons*/
+	void setEnergon(mpn base, char nature) {
+		// if found then change
+		// if not found then add
+		for (unsigned i = 0; i < imaginaries.size(); i++)
+		{
+			if (natures[i] == nature) {
+				imaginaries[i] = base;
+			};
+		} 
+		addEnergon(base, nature);
+	}
 
 	/*getters for energons*/
 
+
+	/*Operator '=' overriding for MP*/
+	void operator=(const MP& second) {
+		this->base = second.base;
+		this->imaginaries = second.imaginaries;
+		this->natures = second.natures;
+		this->order = second.order;
+	}
 
 	/*Operator '+' overriding for MP*/
 	MP MP::operator+(const MP& second) {
@@ -214,7 +286,7 @@ public:
 	}
 
 	/*Operator '+' overriding for int*/
-	MP operator+(const int& second);
+	MP operator+(const int&);
 
 	/*Operator '-' overriding for int*/
 	MP MP::operator-(const int& second) {
