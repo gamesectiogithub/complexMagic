@@ -1,4 +1,9 @@
-﻿  magicParticles.cpp
+﻿  stdafx.cpp
+  magicParticles.cpp
+  Lam.cpp
+  ConsoleMain.cpp
+  AstralPoint.cpp
+  Generating Code...
 d:\cppler\cmagic\complexmagic\consoleapplication1\magicparticles.cpp(37): warning C4172: returning address of local variable or temporary: g
   ConsoleApplication1.vcxproj -> D:\cppler\cMagic\complexMagic\Debug\ConsoleApplication1.exe
   ConsoleApplication1.vcxproj -> D:\cppler\cMagic\complexMagic\Debug\ConsoleApplication1.pdb (Full PDB)

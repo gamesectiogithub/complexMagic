@@ -10,11 +10,13 @@
 #include <stdio.h>
 #include <tchar.h>
 #include <iostream>
+#include <string>
 
 #include "constants.h"
 #include "ConsoleMain.h"
 #include "magicParticles.h"
 
+#include "AstralPoint.h"
 
 
 

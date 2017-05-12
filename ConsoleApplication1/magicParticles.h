@@ -1,13 +1,8 @@
-#pragma once
 
 #include "stdafx.h"
+
 #include <cstring>
 #include <vector>
-#include "constants.h"
-/*
-#include <fstream>
-#include <iomanip>
-*/
 
 /* mystic particles have types
 */
