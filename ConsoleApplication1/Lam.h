@@ -33,3 +33,4 @@ public:
 	AstralArea(AstralAreaType AAType_, AstralPoint* position_, string natures);
 	AstralArea(AstralAreaType AAType_, bool hasTime_, AstralPoint* position_, string natures_);
 };
+
