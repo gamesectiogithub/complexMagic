@@ -46,7 +46,10 @@
       <Filter>Header Files\theory</Filter>
     </ClInclude>
     <ClInclude Include="MagicSource.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\theory</Filter>
+    </ClInclude>
+    <ClInclude Include="functionality.h">
+      <Filter>Header Files\theory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -66,7 +69,13 @@
       <Filter>Source Files\theory</Filter>
     </ClCompile>
     <ClCompile Include="MagicSource.cpp">
+      <Filter>Source Files\theory</Filter>
+    </ClCompile>
+    <ClCompile Include="functionality.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

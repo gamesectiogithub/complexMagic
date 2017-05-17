@@ -148,6 +148,7 @@
     <ClInclude Include="AstralPoint.h" />
     <ClInclude Include="ConsoleMain.h" />
     <ClInclude Include="constants.h" />
+    <ClInclude Include="functionality.h" />
     <ClInclude Include="Lam.h" />
     <ClInclude Include="magicParticles.h" />
     <ClInclude Include="MagicSource.h" />
@@ -157,6 +158,7 @@
   <ItemGroup>
     <ClCompile Include="AstralPoint.cpp" />
     <ClCompile Include="ConsoleMain.cpp" />
+    <ClCompile Include="functionality.cpp" />
     <ClCompile Include="Lam.cpp" />
     <ClCompile Include="magicParticles.cpp" />
     <ClCompile Include="MagicSource.cpp" />
@@ -166,6 +168,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,9 +1,10 @@
 #pragma once
 
-#include "magicParticles.h"
 #include <string>
+#include "functionality.h"
 
 enum Chakra { Istok = 0, Zarod, Jivot, Persi, Lada, Lelya, Usta, Chelo, Rodnik };
+enum Shapes { Circle, Oval, Triang, Rectang, Fugure  };
 
 class Essence
 {
@@ -33,7 +34,8 @@ class MagicUser : public NonAstralObject
 {
 protected:
 	Chakra affixChakra;
-	int thisNumber;
+	int thisnum;
+
 public:
 
 	static int mageNumber;
@@ -49,8 +51,8 @@ public:
 	MagicUser() {
 		setName("Mage");
 		alive = true;
-		thisNumber = getNumber();
-		setNumber(thisNumber + 1);
+		setNumber(getNumber() + 1);
+		thisnum = getNumber();
 	}
 
 	Chakra getChakra() {
@@ -70,12 +72,38 @@ public:
 	}
 
 	string getName() {
-		return essenceName + to_string( thisNumber);
+		return essenceName;
 	}
 
 	virtual void setName(string s) {
-		essenceName = s;
+		essenceName = s + to_string(thisnum);
 	}
+};
+
+struct Functionality {
+
+	/* MP dissapear*/
+	determination_v fAbsorb;
+	/* MP are allowed to come in */
+	determination_v fTake;
+	/* MP are enprisoned*/
+	determination_v fAccumulate;
+	/* MP are producing*/
+	determination_f fGenerate;
+	/* MP are remaking*/
+	determination_f fTransform;
+	/* MP are allowed to come out*/
+	determination_v fGive;
+	/* MP are allowed*/
+	determination_v fIgnore;
+
+};
+
+struct MagicStream {
+
+	vector<MP> magicParticles;
+	vector<Shapes> stream;
+	
 };
 
 class MagicSource
@@ -93,5 +121,28 @@ protected:
 	bool limitedEnergy;
 	Functionality functions;
 	MagicStream stream;
+
+
+
+public:
+
+	Essence getSourcePoint();
+	Essence getAffixPoint();
+	AstralPoint getPlacement();
+	mpn getPower();
+	char* getEnergonNatures();
+	bool isLimitedTime();
+	bool isLimitedEnergy();
+	const Functionality getFunctions();
+	const MagicStream getStream();
+
+	void setAffixPoint(Essence e);
+	void setEnergonNatures();
+	void setLimitedTime();
+	void setLimitedEnergy();
+
+	void setFunction(determination_v func);
+	void setFunction(determination_f func);
+
 };
 

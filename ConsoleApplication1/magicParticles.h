@@ -24,11 +24,11 @@ mpn reNat_straight(const mpn&, const mpn&);
 struct magicParticle {
 
 public:
-	enum MPType { REAL, COMPLEX, MULTYR, MULTYC };
+	
 	enum MPClass { QNT, TLE, TFU, ATM, AMS, INV, EXO };
 
 private:
-	const MPType type;
+	const MPClass type;
 	char order; // use like a number
 	mpn base;
 	vector<mpn> imaginaries;
@@ -40,7 +40,7 @@ private:
 
 public:
 
-	MP(void) : type(COMPLEX)
+	MP(void) : type(QNT)
 	{
 
 		base = 0;
@@ -50,11 +50,13 @@ public:
 		natures[1] = '\0';
 		setAutoOrder();
 		setAutoRule();
+		reNaturize = reNat_straight;
 
 	};
 
-	MP(mpn mpBase, mpn mpIm) : base(mpBase), order(1), type(COMPLEX)
+	MP(mpn mpBase, mpn mpIm) : base(mpBase), order(1), type(QNT)
 	{
+		reNaturize = reNat_straight;
 		imaginaries.push_back(mpIm);
 		natures = new char;
 		natures[0] = 'i';
@@ -62,8 +64,9 @@ public:
 		setAutoRule();
 	}
 
-	MP(mpn mpBase, mpn mpIm, char mpImType) : base(mpBase), order(1), type(COMPLEX)
+	MP(mpn mpBase, mpn mpIm, char mpImType) : base(mpBase), order(1), type(QNT)
 	{
+		reNaturize = reNat_straight;
 		imaginaries.push_back(mpIm);
 		natures = new char;
 		natures[0] = mpImType;
@@ -71,8 +74,9 @@ public:
 		setAutoRule();
 	}
 
-	MP(mpn mpBase, vector<mpn> mpImaginaries, char* mpNatures) : base(mpBase), type(COMPLEX)
+	MP(mpn mpBase, vector<mpn> mpImaginaries, char* mpNatures) : base(mpBase), type(QNT)
 	{
+		reNaturize = reNat_straight;
 		imaginaries = mpImaginaries;
 		natures = mpNatures;
 		setAutoOrder();
@@ -140,6 +144,11 @@ public:
 			stich();
 		doNot_reNaturization:;
 	}
+	
+	/*determine function of renaturization*/
+	void setReNaturizationFunction(energonRule_func f) {
+		reNaturize = f;
+	}
 
 	/*print Mystic Number with cout & endl*/
 	void toString() {
@@ -178,7 +187,7 @@ public:
 		addComplexPart(base, nature);
 	}
 
-	const MPType getType() {
+	MPClass getClass() {
 		return type;
 	}
 
