@@ -1,32 +1,81 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="MagicSource" Collapsed="true">
-    <Position X="0.5" Y="0.5" Width="1.5" />
+  <Class Name="MagicSource">
+    <Position X="8" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AgAAAAAAAAABAAAAAgAAAIAAAEFIAAAACAAAIAAEAAA=</HashCode>
+      <HashCode>CgQBAAAAAAABAAAAAoAAAAAgAGFIAAAACAMIIggEAAI=</HashCode>
       <FileName>MagicSource.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Essence">
-    <Position X="0.5" Y="1.25" Width="1.5" />
+    <Position X="0.5" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAABAAAAABAAAAEAAAAAAA=</HashCode>
+      <HashCode>AIAAAAAAUAAAAAAAAAAAAAAAIAEAAABAAAAEAAAAAAA=</HashCode>
       <FileName>MagicSource.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MagicUser" Collapsed="true">
-    <Position X="4.75" Y="2.25" Width="1.5" />
+    <Position X="2.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAABAUAAAAEAEAABAAAEAAAAAAAAABAAAAEAAAAAAA=</HashCode>
       <FileName>MagicSource.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="NonAstralObject">
-    <Position X="2.5" Y="2" Width="1.5" />
+    <Position X="2.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>MagicSource.h</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Lam">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAgAAAAAAIAAAAAAIAABoAAAAIAAAAAA=</HashCode>
+      <FileName>Lam.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AstralArea" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CgAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Lam.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Functionality" Collapsed="true">
+    <Position X="4.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAACAAAAAAAIAAaAAAAAAAAAAEAA=</HashCode>
+      <FileName>MagicSource.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="MagicStream" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAEAAIAAAAAAAAAAKAAAAAAAAAA=</HashCode>
+      <FileName>MagicSource.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="AstralAreaType" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAEAAAAAACAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Lam.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Chakra" Collapsed="true">
+    <Position X="0.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AggAAAAAAAEAAAEAADAAAAAAAAAAAAARAAAQAAAAAAA=</HashCode>
+      <FileName>MagicSource.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Shapes" Collapsed="true">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACCAAAAAAAAAAAAAAAAACAAAAAgAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>MagicSource.h</FileName>
+    </TypeIdentifier>
+  </Enum>
   <Font Name="Tahoma" Size="8.25" />
 </ClassDiagram>

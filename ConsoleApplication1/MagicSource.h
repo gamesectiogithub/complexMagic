@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "Lam.h"
 #include "functionality.h"
 
 enum Chakra { Istok = 0, Zarod, Jivot, Persi, Lada, Lelya, Usta, Chelo, Rodnik };
@@ -10,7 +11,9 @@ class Essence
 {
 protected:
 	string essenceName = "Something";
-	bool alive = false;
+	bool is_alive = false;
+	MagicSource* magicSrcPtr = 0;
+	Lam* currentWorld = 0;
 public:
 	virtual string getName() {
 		return essenceName;
@@ -19,6 +22,11 @@ public:
 	virtual void setName(string s) {
 		essenceName = s;
 	}
+	// connect MagicSrc to some presentation essence in some world
+	virtual void makeThisMagicSource(MagicSource* msrc, Lam* world) {
+		magicSrcPtr = msrc;
+		currentWorld = world;
+	}
 };
 
 class NonAstralObject : public Essence
@@ -26,7 +34,7 @@ class NonAstralObject : public Essence
 public:
 	NonAstralObject() {
 		setName("Some_Object");
-		alive = false;
+		is_alive = false;
 	}
 };
 
@@ -50,7 +58,7 @@ public:
 
 	MagicUser() {
 		setName("Mage");
-		alive = true;
+		is_alive = true;
 		setNumber(getNumber() + 1);
 		thisnum = getNumber();
 	}
@@ -103,7 +111,14 @@ struct MagicStream {
 
 	vector<MP> magicParticles;
 	vector<Shapes> stream;
+
+	Essence* affixEssence;
+
 	
+public: //methods
+	Essence* getAffixPoint();
+	void setAffixPoint(Essence* e);
+
 };
 
 class MagicSource
@@ -112,8 +127,8 @@ public:
 	MagicSource();
 	~MagicSource();
 protected:
-	Essence thisEssence;
-	Essence affixEssence;
+	Essence* thisEssence;
+	
 	AstralPoint placement;
 	mpn power;
 	char* energonNatures;
@@ -123,11 +138,10 @@ protected:
 	MagicStream stream;
 
 
-
 public:
 
-	Essence getSourcePoint();
-	Essence getAffixPoint();
+	Essence* getSourcePoint();
+	
 	AstralPoint getPlacement();
 	mpn getPower();
 	char* getEnergonNatures();
@@ -136,7 +150,7 @@ public:
 	const Functionality getFunctions();
 	const MagicStream getStream();
 
-	void setAffixPoint(Essence e);
+	
 	void setEnergonNatures();
 	void setLimitedTime();
 	void setLimitedEnergy();

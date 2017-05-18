@@ -2,6 +2,7 @@
 
 #include "AstralPoint.h"
 #include <string>
+#include "stdafx.h"
 
 enum AstralAreaType { Astral, World, Reflexion, Shadow };
 
@@ -18,6 +19,9 @@ public:
 	AstralPoint* getPos();
 	string getNatures();
 	void setNatures(string s);
+
+	MP createMagicParticle();
+	
 };
 
 class AstralArea : public Lam 
