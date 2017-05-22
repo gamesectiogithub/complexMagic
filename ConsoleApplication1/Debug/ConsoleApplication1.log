@@ -1,9 +1,30 @@
 ﻿  stdafx.cpp
-  magicParticles.cpp
-  Lam.cpp
-  ConsoleMain.cpp
-  AstralPoint.cpp
-  Generating Code...
-d:\cppler\cmagic\complexmagic\consoleapplication1\magicparticles.cpp(37): warning C4172: returning address of local variable or temporary: g
-  ConsoleApplication1.vcxproj -> D:\cppler\cMagic\complexMagic\Debug\ConsoleApplication1.exe
-  ConsoleApplication1.vcxproj -> D:\cppler\cMagic\complexMagic\Debug\ConsoleApplication1.pdb (Full PDB)
+d:\cppler\cmagic\complexmagic\consoleapplication1\lam.h(24): error C2143: syntax error: missing ';' before '*'
+d:\cppler\cmagic\complexmagic\consoleapplication1\lam.h(24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+d:\cppler\cmagic\complexmagic\consoleapplication1\lam.h(24): error C2238: unexpected token(s) preceding ';'
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(19): error C2143: syntax error: missing ';' before '*'
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(19): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(19): error C2238: unexpected token(s) preceding ';'
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(21): error C2143: syntax error: missing ';' before '*'
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(21): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(21): error C2238: unexpected token(s) preceding ';'
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(22): error C3646: 'outputConnector': unknown override specifier
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(22): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(27): error C2061: syntax error: identifier 'MagicSource'
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(28): error C2065: 'magicSrcPtr': undeclared identifier
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(28): error C2065: 'msrc': undeclared identifier
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(29): error C2065: 'world': undeclared identifier
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(101): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(101): note: This member will be ignored by a defaulted constructor or copy/move assignment operator
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(102): error C2229: class 'MagicStream' has an illegal zero-sized array
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(102): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(102): note: This member will be ignored by a defaulted constructor or copy/move assignment operator
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(103): error C2229: class 'MagicStream' has an illegal zero-sized array
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(126): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(126): note: This member will be ignored by a defaulted constructor or copy/move assignment operator
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(127): error C2229: class 'MagicSource' has an illegal zero-sized array
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(127): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(127): note: This member will be ignored by a defaulted constructor or copy/move assignment operator
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(128): error C2086: 'Functionality MagicSource::functions': redefinition
+  d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(123): note: see declaration of 'MagicSource::functions'
+d:\cppler\cmagic\complexmagic\consoleapplication1\magicsource.h(128): error C2229: class 'MagicSource' has an illegal zero-sized array

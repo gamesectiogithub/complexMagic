@@ -1,31 +1,32 @@
 #pragma once
 
-#include <string>
-#include "Lam.h"
-#include "functionality.h"
+#include "stdafx.h"	
 
 enum Chakra { Istok = 0, Zarod, Jivot, Persi, Lada, Lelya, Usta, Chelo, Rodnik };
 enum Shapes { Circle, Oval, Triang, Rectang, Fugure  };
 
-class Essence
+struct NativeEnergons {
+	char* feels;
+	char* interacts;
+	char* ignores;
+};
+
+class Essence : public ModelObject
 {
 protected:
-	string essenceName = "Something";
-	bool is_alive = false;
-	MagicSource* magicSrcPtr = 0;
-	Lam* currentWorld = 0;
-public:
-	virtual string getName() {
-		return essenceName;
-	}
 
-	virtual void setName(string s) {
-		essenceName = s;
-	}
+	bool is_alive = true;
+	MagicSource* magicSrcPtr;
+	Lam* currentLAM = 0;
+	Connector* inputConnectors;
+	Connector outputConnector;
+	NativeEnergons nativeEnergons;
+public:
+	
 	// connect MagicSrc to some presentation essence in some world
 	virtual void makeThisMagicSource(MagicSource* msrc, Lam* world) {
 		magicSrcPtr = msrc;
-		currentWorld = world;
+		currentLAM = world;
 	}
 };
 
@@ -42,25 +43,12 @@ class MagicUser : public NonAstralObject
 {
 protected:
 	Chakra affixChakra;
-	int thisnum;
+	
 
 public:
 
-	static int mageNumber;
-
-	static int getNumber() {
-		return mageNumber;
-	}
-
-	static int setNumber(int i) {
-		mageNumber = i;
-	}
-
 	MagicUser() {
-		setName("Mage");
-		is_alive = true;
-		setNumber(getNumber() + 1);
-		thisnum = getNumber();
+		
 	}
 
 	Chakra getChakra() {
@@ -78,42 +66,41 @@ public:
 	void setChakra() {
 		affixChakra = (Chakra)(rand()%9);
 	}
-
-	string getName() {
-		return essenceName;
-	}
-
-	virtual void setName(string s) {
-		essenceName = s + to_string(thisnum);
-	}
 };
 
 struct Functionality {
 
 	/* MP dissapear*/
 	determination_v fAbsorb;
-	/* MP are allowed to come in */
-	determination_v fTake;
 	/* MP are enprisoned*/
 	determination_v fAccumulate;
 	/* MP are producing*/
 	determination_f fGenerate;
 	/* MP are remaking*/
 	determination_f fTransform;
+	/* MP are allowed to come in */
+	determination_v fFeel;
 	/* MP are allowed to come out*/
-	determination_v fGive;
+	determination_v fInteract;
 	/* MP are allowed*/
 	determination_v fIgnore;
 
 };
 
-struct MagicStream {
+struct Connector {
+	bool owner_1_state;
+	bool owner_2_state;
+	void* owner_1;
+	void* owner_2;
+};
 
+class MagicStream {
+protected:
 	vector<MP> magicParticles;
-	vector<Shapes> stream;
-
+	vector<Shapes> shapesConfig;
+	Lam* msLAMs[];
+	Connector* connectors[];
 	Essence* affixEssence;
-
 	
 public: //methods
 	Essence* getAffixPoint();
@@ -128,20 +115,19 @@ public:
 	~MagicSource();
 protected:
 	Essence* thisEssence;
-	
-	AstralPoint placement;
-	mpn power;
+	AstralPoint astralPosition;
+	mpn magicPower;
 	char* energonNatures;
 	bool limitedTime;
 	bool limitedEnergy;
 	Functionality functions;
 	MagicStream stream;
-
-
+	NativeEnergons nativeEnergons;
+	Connector* inputConnectors[];
+	Connector* outputConnectors[];
+	Functionality functions;
 public:
-
 	Essence* getSourcePoint();
-	
 	AstralPoint getPlacement();
 	mpn getPower();
 	char* getEnergonNatures();

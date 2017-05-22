@@ -11,12 +11,17 @@
 #include <tchar.h>
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "constants.h"
 #include "ConsoleMain.h"
 #include "magicParticles.h"
 
 #include "AstralPoint.h"
+#include "ModelObject.h"
+#include "Lam.h"
+#include "functionality.h"
+#include "MagicSource.h"
 
 
 

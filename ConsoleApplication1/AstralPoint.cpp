@@ -1,6 +1,4 @@
 #include "stdafx.h"
-#include "AstralPoint.h"
-#include "Lam.h"
 
 AstralPoint::AstralPoint()
 {

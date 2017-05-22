@@ -1,18 +1,30 @@
 #pragma once
 
-#include "AstralPoint.h"
-#include <string>
 #include "stdafx.h"
 
 enum AstralAreaType { Astral, World, Reflexion, Shadow };
+
+struct AstralWeather {
+	//TODO: this
+	enum AstralPenomenon { Rain, Wind };
+
+	bool dummy = false;
+};
+
 
 class Lam
 {
 protected:
 	AstralPoint* position = new AstralPoint();
 	string natures;
+	AstralWeather astralWeather;
+private:
+	const bool isTimeless = true;
+protected:
+	MagicStream* superPositonalBackgroundStream;
+	char* nativeEnergons;
 
-public:
+public:;
 	virtual ~Lam();
 	Lam(AstralPoint* p, string s);
 
@@ -21,7 +33,6 @@ public:
 	void setNatures(string s);
 
 	MP createMagicParticle();
-	
 };
 
 class AstralArea : public Lam 
