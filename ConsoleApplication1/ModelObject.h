@@ -1,10 +1,12 @@
 #pragma once
 #include "stdafx.h"
 
+#include <string>
+
 class ModelObject
 {
 protected:
-	string name = "Something";
+	string name;
 	int thisnum;
 
 public:

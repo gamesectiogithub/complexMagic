@@ -145,24 +145,16 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AstralPoint.h" />
     <ClInclude Include="ConsoleMain.h" />
     <ClInclude Include="constants.h" />
-    <ClInclude Include="functionality.h" />
-    <ClInclude Include="Lam.h" />
-    <ClInclude Include="magicParticles.h" />
-    <ClInclude Include="MagicSource.h" />
+    <ClInclude Include="magictheory.h" />
     <ClInclude Include="ModelObject.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AstralPoint.cpp" />
     <ClCompile Include="ConsoleMain.cpp" />
-    <ClCompile Include="functionality.cpp" />
-    <ClCompile Include="Lam.cpp" />
-    <ClCompile Include="magicParticles.cpp" />
-    <ClCompile Include="MagicSource.cpp" />
+    <ClCompile Include="magictheory.cpp" />
     <ClCompile Include="ModelObject.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

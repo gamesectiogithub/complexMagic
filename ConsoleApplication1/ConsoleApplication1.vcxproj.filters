@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\theory">
-      <UniqueIdentifier>{0ba7e466-ded2-4692-b563-5fe6486f1b78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\theory">
-      <UniqueIdentifier>{89d9b42d-671f-43b1-97eb-81f833041acb}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -36,22 +30,10 @@
     <ClInclude Include="constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Lam.h">
-      <Filter>Header Files\theory</Filter>
-    </ClInclude>
-    <ClInclude Include="magicParticles.h">
-      <Filter>Header Files\theory</Filter>
-    </ClInclude>
-    <ClInclude Include="AstralPoint.h">
-      <Filter>Header Files\theory</Filter>
-    </ClInclude>
-    <ClInclude Include="MagicSource.h">
-      <Filter>Header Files\theory</Filter>
-    </ClInclude>
-    <ClInclude Include="functionality.h">
-      <Filter>Header Files\theory</Filter>
-    </ClInclude>
     <ClInclude Include="ModelObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="magictheory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -62,22 +44,10 @@
     <ClCompile Include="ConsoleMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Lam.cpp">
-      <Filter>Source Files\theory</Filter>
-    </ClCompile>
-    <ClCompile Include="magicParticles.cpp">
-      <Filter>Source Files\theory</Filter>
-    </ClCompile>
-    <ClCompile Include="AstralPoint.cpp">
-      <Filter>Source Files\theory</Filter>
-    </ClCompile>
-    <ClCompile Include="MagicSource.cpp">
-      <Filter>Source Files\theory</Filter>
-    </ClCompile>
-    <ClCompile Include="functionality.cpp">
+    <ClCompile Include="ModelObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ModelObject.cpp">
+    <ClCompile Include="magictheory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
