@@ -3,10 +3,11 @@
 
 #include <string>
 
+
 class ModelObject
 {
 protected:
-	string name;
+	std::string name;
 	int thisnum;
 
 public:
@@ -28,13 +29,13 @@ public:
 		classNumber = i;
 	}
 
-	virtual string getName() {
+	virtual std::string getName() {
 		return name;
 	}
 
 	// TODO: make it =0
-	virtual void setName(string s) {
-		name = s + "_" + to_string(thisnum);
+	virtual void setName(std::string s) {
+		name = s + "_" + std::to_string(thisnum);
 	}
 	
 

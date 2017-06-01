@@ -1,97 +1,60 @@
 #pragma once
 
-class Lam;
-
-//using square positions in this version
-class AstralPoint
-{
-protected:
-	Lam* n;
-	Lam* s;
-	Lam* w;
-	Lam* e;
-
-public:
-	AstralPoint();
-	AstralPoint(Lam*);
-	AstralPoint(Lam*, char);
-	AstralPoint(Lam*, Lam*, Lam*, Lam*);
-	~AstralPoint();
-
-protected:
-	//return North, East, South, West
-	Lam* getPos();
-};
-
-// functionality
-
-typedef MP(*determination_f)(const int, MP[]);
-typedef void(*determination_v)(const int, MP[]);
-
-void determineMPlist(const int cnt, MP mpa[]);
-MP determineMPfunc(const int cnt, MP mpa[]);
-
-// LAM
-
-enum AstralAreaType { Astral, World, Reflexion, Shadow };
-
-struct AstralWeather {
-	//TODO: this
-	enum AstralPenomenon { Rain, Wind };
-
-	bool dummy = false;
-};
-
-
-class Lam
-{
-protected:
-	AstralPoint* position = new AstralPoint();
-	string natures;
-	AstralWeather astralWeather;
-private:
-	const bool isTimeless = true;
-protected:
-	MagicStream* superPositonalBackgroundStream;
-	char* nativeEnergons;
-
-public:;
-	   virtual ~Lam();
-	   Lam(AstralPoint* p, string s);
-
-	   AstralPoint* getPos();
-	   string getNatures();
-	   void setNatures(string s);
-
-	   MP createMagicParticle();
-};
-
-class AstralArea : public Lam
-{
-protected:
-	AstralAreaType AAType = Astral;
-	bool hasTime = false;
-
-public:
-	AstralArea();
-	virtual ~AstralArea();
-	AstralArea(AstralAreaType AAType_, AstralPoint* position_);
-	AstralArea(AstralAreaType AAType_, AstralPoint* position_, string natures);
-	AstralArea(AstralAreaType AAType_, bool hasTime_, AstralPoint* position_, string natures_);
-};
-
-// magicparticles
-
-/* mystic particles have types
-*/
+#include "stdafx.h"
 
 #define mpn short
 #define MP magicParticle
 
-typedef  mpn(*energonRule_func)(const mpn&, const mpn&);
-
-
 using namespace std;
+
+enum AstralAreaType { Astral, World, Reflexion, Shadow };
+
+//using hegaon positions in this version
+class AstralPoint
+{
+
+/**lets print to console or txt file like 
+
+ +-+
++<I>+
+ +-+
+
+symbol I is any informational symbol
+space usage: 1 informational symbol in total 15 symbols, 12 symbols can be shared
+hex and neighbors:
+
+       +-+
+    +-+<I>+-+
+   +<I>+-+<I>+
+    +-+<I>+-+
+   +<I>+-+<I>+
+    +-+<I>+-+ 
+       +-+
+
+*/
+
+protected:
+	AstralAreaType owner;
+	mpn col;
+	mpn row;
+
+public:
+
+	AstralPoint();
+	~AstralPoint();
+
+	AstralPoint(mpn col, mpn row);
+
+protected:
+	/*methods*/
+	
+};
+
+
+// magicparticles
+
+
+typedef  mpn(*energonRule_func)(const mpn&, const mpn&);
 
 /*functions for renaturization of bases of energons*/
 mpn reNat_linear(const mpn&, const mpn&);
@@ -109,200 +72,66 @@ private:
 	const MPClass type;
 	char order; // use like a number
 	mpn base;
-	vector<mpn> imaginaries;
+	std::vector<mpn> imaginaries;
 	char* natures;
 	energonRule_func reNaturize;
-
 	int* n = NULL;
 	bool conserved = false; // if true -> methods must not work: stich,
 
 public:
 
-	MP(void) : type(QNT)
-	{
+	MP();
+	MP(mpn mpBase, mpn mpIm);
+	MP(mpn mpBase, mpn mpIm, char mpImType);
+	MP(mpn mpBase, std::vector<mpn> mpImaginaries, char* mpNatures);
 
-		base = 0;
-		imaginaries.push_back(0);
-		natures = new char;
-		natures[0] = 'i';
-		natures[1] = '\0';
-		setAutoOrder();
-		setAutoRule();
-		reNaturize = reNat_straight;
-
-	};
-
-	MP(mpn mpBase, mpn mpIm) : base(mpBase), order(1), type(QNT)
-	{
-		reNaturize = reNat_straight;
-		imaginaries.push_back(mpIm);
-		natures = new char;
-		natures[0] = 'i';
-		natures[1] = '\0';
-		setAutoRule();
-	}
-
-	MP(mpn mpBase, mpn mpIm, char mpImType) : base(mpBase), order(1), type(QNT)
-	{
-		reNaturize = reNat_straight;
-		imaginaries.push_back(mpIm);
-		natures = new char;
-		natures[0] = mpImType;
-		natures[1] = '\0';
-		setAutoRule();
-	}
-
-	MP(mpn mpBase, vector<mpn> mpImaginaries, char* mpNatures) : base(mpBase), type(QNT)
-	{
-		reNaturize = reNat_straight;
-		imaginaries = mpImaginaries;
-		natures = mpNatures;
-		setAutoOrder();
-		setAutoRule();
-		stich();
-	}
-
-
-	~MP()
-	{
-		delete[] n;
-	}
+	~MP();
 
 	/*deleting complex part with number {id}*/
-	void delEnergon(mpn id) {
-
-		imaginaries.erase(imaginaries.begin() + id);
-		char* dub = natures;
-		unsigned k = 0;
-
-		for (unsigned i = 0; i < imaginaries.size() + 2; i++)
-		{
-			if (i != id) {
-				dub[k] = natures[i];
-			}
-			else {
-				k--;
-			}
-			++k;
-		}
-
-		natures = "";
-		natures = dub;
-	}
+	void delEnergon(mpn id);
 
 	/*function for converting energons to another nature*/
-	void reNaturization(char nature_from, char nature_to, energonRule_func f = reNat_straight)
-	{
-
-		// TODO: delete goto's , method reNaturization
-
-		for (unsigned i = 0; i < imaginaries.size(); i++)
-		{
-			if (natures[i] == nature_from) goto do_reNaturization;
-		} goto doNot_reNaturization;
-
-	do_reNaturization:
-
-		mpn base_f = 0, base_t = 0;
-
-		for (unsigned i = 0; i < imaginaries.size(); i++)
-		{
-			if (natures[i] == nature_from)
-			{
-				base_f = (mpn)i;
-			}
-			if (natures[i] == nature_to)
-			{
-				base_t = (mpn)i;
-			}
-		}
-
-		imaginaries[base_f] = f(imaginaries[base_f], imaginaries[base_t]);
-		natures[base_f] = nature_to;
-		stich();
-	doNot_reNaturization:;
-	}
+	//TODO: change default parameter
+	void reNaturization(const char nature_from, const char nature_to, energonRule_func f = reNat_straight);
 
 	/*determine function of renaturization*/
-	void setReNaturizationFunction(energonRule_func f) {
-		reNaturize = f;
-	}
+	void setReNaturizationFunction(energonRule_func f);
 
 	/*print Mystic Number with cout & endl*/
 	void toString() {
 
 		// base|imag[n]|nature[n]...
-		cout << base;
+		std::cout << base;
 
 		for (unsigned i = 0; i < imaginaries.size(); i++)
 		{
-			imaginaries[i] >= 0 ? cout << '+' << imaginaries[i] : cout << imaginaries[i];
-			cout << natures[i];
+			imaginaries[i] >= 0 ? std::cout << '+' << imaginaries[i] : cout << imaginaries[i];
+			std::cout << natures[i];
 		}
 
-		cout << endl;
+		std::cout << std::endl;
 	};
 
-	void setAutoOrder() {
-		order = (char)imaginaries.size();
-	}
+	void setAutoOrder();
 
-	void setAutoRule() {
-		reNaturize = reNat_straight;
-	}
+	void setAutoRule();
 
-	void setBase(mpn bs) {
-		base = bs;
-	}
+	void setBase(mpn bs);
 
-	void addComplexPart(mpn val, char imtype) {
-		imaginaries.push_back(val);
-		natures[imaginaries.size() - 1] = imtype;
-		natures[imaginaries.size()] = '\0';
-	}
+	void addComplexPart(mpn val, char imtype);
 
-	void addEnergon(mpn base, char nature) {
-		addComplexPart(base, nature);
-	}
+	void addEnergon(mpn base, char nature);
 
-	MPClass getClass() {
-		return type;
-	}
+	MPClass getClass();
 
 	/*stich all energons with the same nature*/
-	void stich() {
-
-		// TODO: delete goto's , method stich
-
-		for (unsigned i = 0; i < imaginaries.size() - 1; i++)
-		{
-			for (unsigned j = i + 1; j < imaginaries.size(); j++)
-			{
-				if (natures[i] == natures[j]) {
-					imaginaries[i] = imaginaries[i] + imaginaries[j];
-					delEnergon(j);
-				}
-
-			}
-		}
-
-	}
+	void stich();
 
 	/*sort energons by order in LAM*/
 	// void sortOrder()
 
 	/*setters for energons*/
-	void setEnergon(mpn base, char nature) {
-		// if found then change
-		// if not found then add
-		for (unsigned i = 0; i < imaginaries.size(); i++)
-		{
-			if (natures[i] == nature) {
-				imaginaries[i] = base;
-			};
-		}
-		addEnergon(base, nature);
-	}
+	void setEnergon(mpn base, char nature);
 
 	/*getters for energons*/
 
@@ -437,14 +266,17 @@ public:
 	/*Operator post '--' overriding for MP*/
 	friend MP& operator -- (MP& f, int);
 	/*Operator << for std::cout with MP*/
-	friend ostream& operator << (ostream& os, const MP& f);
+	friend std::ostream& operator << (std::ostream& os, const MP& f);
 
 };
 
-// magicSource
 
-enum Chakra { Istok = 0, Zarod, Jivot, Persi, Lada, Lelya, Usta, Chelo, Rodnik };
-enum Shapes { Circle, Oval, Triang, Rectang, Fugure };
+struct Connector {
+	bool owner_1_state;
+	bool owner_2_state;
+	void* owner_1;
+	void* owner_2;
+};
 
 struct NativeEnergons {
 	char* feels;
@@ -452,13 +284,19 @@ struct NativeEnergons {
 	char* ignores;
 };
 
+class MagicSource;
+class Lam;
+
 class Essence : public ModelObject
 {
+public:
+	enum Chakra { Istok = 0, Zarod, Jivot, Persi, Lada, Lelya, Usta, Chelo, Rodnik };
+
 protected:
 
 	bool is_alive = true;
 	MagicSource* magicSrcPtr;
-	Lam* currentLAM = 0;
+	Lam* currentLAM;
 	Connector* inputConnectors;
 	Connector outputConnector;
 	NativeEnergons nativeEnergons;
@@ -470,6 +308,94 @@ public:
 		currentLAM = world;
 	}
 };
+
+
+//one controller for one LAM
+class AstralWeatherController {
+
+public:
+	AstralWeatherController();
+	~AstralWeatherController();
+};
+
+//weather phenomenons
+struct AstralWeather {
+	//TODO: this
+	enum AstralPenomenon { Flow, Wind, Fog, Storm, Tornado, Uragan, Calm, Swell, Island };
+
+	bool dummy = false;
+};
+
+//Local area of multiuniverse
+class Lam
+{
+private:
+	char* index; // for global map with many different LAMs
+
+protected:
+	AstralPoint* AstralSpace = new AstralPoint(); // TODO array or any container
+
+public:
+	
+
+	   virtual ~Lam();
+	   Lam(AstralPoint* p, std::string s);
+};
+
+class MagicStream {
+public:
+	enum Shapes { Circle, Oval, Triang, Rectang, Fugure };
+
+protected:
+	std::vector<MP> magicParticles;
+	std::vector<Shapes> shapesConfig;
+	Lam* msLAMs;
+	Connector* connectors;
+	Essence* affixEssence;
+
+public: //methods
+	Essence* getAffixPoint();
+	void setAffixPoint(Essence* e);
+
+};
+
+class AstralArea : public Lam
+{
+protected:
+	AstralAreaType AAType;
+	bool hasTime = false;
+	std::string natures;
+	AstralWeather astralWeather;
+	MagicStream* superPositonalBackgroundStream;
+	char* nativeEnergons;
+public:
+
+	AstralArea();
+	virtual ~AstralArea();
+	AstralArea(AstralAreaType AAType_, AstralPoint* position_);
+	AstralArea(AstralAreaType AAType_, AstralPoint* position_, std::string natures);
+	AstralArea(AstralAreaType AAType_, bool hasTime_, AstralPoint* position_, std::string natures_);
+
+	AstralPoint* getPos();
+	std::string getNatures();
+	void setNatures(std::string s);
+
+	MP* createMagicParticle();
+};
+
+
+
+// functionality
+
+typedef MP(*determination_f)(const int, MP[]);
+typedef void(*determination_v)(const int, MP[]);
+
+void determineMPlist(const int cnt, MP mpa[]);
+MP determineMPfunc(const int cnt, MP mpa[]);
+
+// magicSource
+
+
 
 class NonAstralObject : public Essence
 {
@@ -528,26 +454,6 @@ struct Functionality {
 
 };
 
-struct Connector {
-	bool owner_1_state;
-	bool owner_2_state;
-	void* owner_1;
-	void* owner_2;
-};
-
-class MagicStream {
-protected:
-	vector<MP> magicParticles;
-	vector<Shapes> shapesConfig;
-	Lam* msLAMs[];
-	Connector* connectors[];
-	Essence* affixEssence;
-
-public: //methods
-	Essence* getAffixPoint();
-	void setAffixPoint(Essence* e);
-
-};
 
 class MagicSource
 {
@@ -564,9 +470,9 @@ protected:
 	Functionality functions;
 	MagicStream stream;
 	NativeEnergons nativeEnergons;
-	Connector* inputConnectors[];
-	Connector* outputConnectors[];
-	Functionality functions;
+	Connector* inputConnectors;
+	Connector* outputConnectors;
+	//Functionality functions;
 public:
 	Essence* getSourcePoint();
 	AstralPoint getPlacement();
