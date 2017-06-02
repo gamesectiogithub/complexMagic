@@ -15,12 +15,51 @@ int main(int argc, char* argv[])
 	printHello(hi, version);
 
 
+
+
+	/*
+	runMagicParticlesTest();
+
+	printChars();
+	*/
+
+	/* ending*/
+	cout << "Press any key and Enter to exit";
+	cin >> sChar;
+
 	
+    return 0;
+}
+
+void printHello(const char* string, int version) {
+	char ver = version;
+	cout << string << ver << endl;
+}
+
+void printChars()
+{
+
+	for (int i = 0; i <= 150; i++) {
+
+		if (i == 13) i = 14;
+		cout << i << ' ' << (char)i;
+		cout << "  ";
+
+		if (i % 10 == 0) cout << endl;
+	}
+
+	cout << endl;
+
+}
+
+void runMagicParticlesTest()
+{
+
 	MP cn;
-	
+
 	cn.toString();
 
-	MP cn2(4,2);
+	MP cn2(4, 2);
 
 	cn2.toString();
 
@@ -35,8 +74,8 @@ int main(int argc, char* argv[])
 	answer = answer + 5;
 	answer.toString();
 
-	cout << "Another " << endl; 
-	
+	cout << "Another " << endl;
+
 	MP cn6(4, 600, 'y');
 	cn6.setBase(40);
 	cn6.addComplexPart(3, 'p');
@@ -44,14 +83,14 @@ int main(int argc, char* argv[])
 	cn6.addComplexPart(9, 'n');
 	cn6.toString();
 
-	MP cn7(8,-350,'y');
+	MP cn7(8, -350, 'y');
 	cn7.addComplexPart(-2, 'p');
 	cn7.addComplexPart(-2, 'k');
 	cn7.addComplexPart(-3, 'm');
 	cn7.addComplexPart(-3, 't');
 	cn7.toString();
 
-	
+
 	answer = cn6 + cn7;
 	cout << "their SUM:" << endl;
 	answer.toString();
@@ -68,28 +107,5 @@ int main(int argc, char* argv[])
 	answer.toString();
 	cout << endl;
 	cout << endl;
-
-	for (int i = 0; i <= 150; i++) {
-	
-		if (i == 13) i = 14;
-		cout << i << ' ' << (char)i;
-		cout << "  ";
-		
-		if (i % 10 == 0) cout << endl;
-	}
-
-	cout << endl;
-
-
-	/* ending*/
-	cout << "Press any key and Enter to exit";
-	cin >> sChar;
-
-	
-    return 0;
 }
 
-void printHello(const char* string, int version) {
-	char ver = version;
-	cout << string << ver << endl;
-}

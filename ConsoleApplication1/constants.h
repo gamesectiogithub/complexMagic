@@ -26,4 +26,9 @@ unsigned long ulInt = 45UL;
 float fFloat = -2e15F; // 4 bytes -3.4*10^38 +3.4*10^38
 double dDouble = -2e15; // 8 bytes -3.4*10^308 +3.4*10^308
 */
+
+char* DEFAULT_NATURES_7 = "abcdefg";
+char* DEFAULT_NATURES_4 = "bcdg";
+char* DEFAULT_NATURES_3 = "aef";
+
 #endif // !CONSTANTS_H_

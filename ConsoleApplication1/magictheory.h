@@ -9,6 +9,7 @@ using namespace std;
 
 enum AstralAreaType { Astral, World, Reflexion, Shadow };
 
+
 //using hegaon positions in this version
 class AstralPoint
 {
@@ -31,6 +32,7 @@ hex and neighbors:
     +-+<I>+-+ 
        +-+
 
+2d array can be AstralPoints' container, where n = 2k, k := 0..N, each [n] row has Oy offset +1 line down
 */
 
 protected:
@@ -38,21 +40,17 @@ protected:
 	mpn col;
 	mpn row;
 
-public:
-
+private:
 	AstralPoint();
-	~AstralPoint();
+	
+public:
 
 	AstralPoint(mpn col, mpn row);
 
 protected:
-	/*methods*/
+	
 	
 };
-
-
-// magicparticles
-
 
 typedef  mpn(*energonRule_func)(const mpn&, const mpn&);
 
@@ -66,7 +64,7 @@ struct magicParticle {
 
 public:
 
-	enum MPClass { QNT, TLE, TFU, ATM, AMS, INV, EXO };
+	enum MPClass { QNT, TLE, TFU, ANT, ANM, INV, EXO };
 
 private:
 	const MPClass type;
@@ -270,61 +268,125 @@ public:
 
 };
 
-
+//for MagicSources, MagicStreams, Essences
 struct Connector {
-	bool owner_1_state;
+
+	bool owner_1_state; //?
 	bool owner_2_state;
-	void* owner_1;
-	void* owner_2;
+	void* owner_1; //owner -
+	void* owner_2; //owner +
+private:
+	Connector();
+public:
+	Connector(void* owner1, void* owner2);
+
+	//false for owner_1, true for owner_2
+	void setNewOwner(bool flag, void* newOwner);
+	void setNewOwner(void* owner, void* newOwner);
+	//false for owner_1, true for owner_2
+	void* getOwner(bool flag);
+
+
 };
 
 struct NativeEnergons {
-	char* feels;
-	char* interacts;
-	char* ignores;
+	char* feels; // filters - unknown Energon can't come in => radiation or something
+	char* interacts; // definitions - known Energon is used inside the Essence or MagicSource
+	char* ignores; // permission for SubStructures or Improvements use known or even unknown Energon;
+
+	NativeEnergons();
+	~NativeEnergons();
+
+	char* getFeels();
+	char* getInteracts(); 
+	char* getIgnores();
+
+	void setFeels(char* f);
+	void setInteracts(char* i);
+	void setIgnores(char* i);
 };
 
 class MagicSource;
 class Lam;
+class AstralArea;
 
 class Essence : public ModelObject
 {
-public:
-	enum Chakra { Istok = 0, Zarod, Jivot, Persi, Lada, Lelya, Usta, Chelo, Rodnik };
-
 protected:
 
-	bool is_alive = true;
 	MagicSource* magicSrcPtr;
 	Lam* currentLAM;
 	Connector* inputConnectors;
+	mpn inputConNumber;
 	Connector outputConnector;
 	NativeEnergons nativeEnergons;
 public:
 
-	// connect MagicSrc to some presentation essence in some world
-	virtual void makeThisMagicSource(MagicSource* msrc, Lam* world) {
-		magicSrcPtr = msrc;
-		currentLAM = world;
-	}
+	Essence();
+	~Essence();
+
+	void setLam(Lam* lam);
+	Lam* getLam();
+
+	void setMagicSource(MagicSource* msptr);
+	bool isMagicSourcePresentation();
+	MagicSource* getMagicSource();
+
+	void setConnectorOutput(Connector outputCon);
+	void setConnectorsInput(Connector* inputConnectors, mpn n);
+	void addConnectorInput(Connector inputConnector);
+	void addConnectorInput(Connector inputConnector);
+	void release();
+
 };
 
 
+//weather phenomenons  exists in AstralAreas
+struct AstralWeather {
+	//TODO: this
+	enum Phenomenon { Flow, Wind, Fog, Storm, Tornado, Uragan, Calm, Swell, Island };
+
+	Phenomenon phenomenon;
+	AstralPoint* p;
+
+	AstralWeather();
+	
+	Phenomenon getPhenomenon();
+	void setPhenomenon(Phenomenon p);
+	AstralPoint* getAstralPoint();
+	void setAstralPoint(AstralPoint* a);
+
+	void levelUp();
+	void levelDown();
+};
+
 //one controller for one LAM
 class AstralWeatherController {
+	Lam* owner;
 
 public:
 	AstralWeatherController();
 	~AstralWeatherController();
+
+	void setLam(Lam* lam);
+	Lam* getLam();
+
+	void setWeather(AstralPoint p);
+	void setWeather(mpn col, mpn row);
+	void setWeather(AstralArea aa);
+	void setRandomWeather(); //in this Lam
+	void complementWeather(); //in this Lam
+	void complementWeather(AstralPoint p);
+	void complementWeather(mpn col, mpn row);
+	void complementWeather(AstralArea aa);
+
+	//levelup or leveldown
+	void levelWeather(AstralPoint p, bool up = true);
+	void levelWeather(mpn col, mpn row, bool up = true);
+	void levelWeather(AstralArea aa, bool up = true);
+
 };
 
-//weather phenomenons
-struct AstralWeather {
-	//TODO: this
-	enum AstralPenomenon { Flow, Wind, Fog, Storm, Tornado, Uragan, Calm, Swell, Island };
-
-	bool dummy = false;
-};
 
 //Local area of multiuniverse
 class Lam
@@ -333,13 +395,28 @@ private:
 	char* index; // for global map with many different LAMs
 
 protected:
-	AstralPoint* AstralSpace = new AstralPoint(); // TODO array or any container
+	AstralPoint* AstralSpace; // TODO array or any container
+	NativeEnergons nenergons;
+	AstralWeatherController AWC;
+	mpn AstralSpace_width;
+	mpn AstralSpace_length;
 
 public:
 	
+	Lam();
+	virtual ~Lam();
+	Lam(AstralPoint* space, char* f, char* in, char ig);
+	Lam(mpn space_w, mpn space_l, char* f, char* in, char ig);
+	Lam(AstralPoint* space, NativeEnergons ne);
+	Lam(mpn space_w, mpn space_l, NativeEnergons ne);
 
-	   virtual ~Lam();
-	   Lam(AstralPoint* p, std::string s);
+	const NativeEnergons getNativeEnergons();
+	void setNativeEnergons(NativeEnergons ne_);
+
+	void* getAstralPointContent(AstralPoint p);// returns AstralSpace content at the AstralPoint
+	void* getAstralPointContent(mpn col, mpn row);// returns AstralSpace content at the special coordinats
+	void* getLamContent(); // returns array of pointers to all AstralSpace elements
+
 };
 
 class MagicStream {
@@ -359,6 +436,11 @@ public: //methods
 
 };
 
+//MPs are borning due to AstralWeather interaction with Multiuniverse elements
+class MagicParticlesGenerator
+{};
+
+//Astral Area of LAM with the same weather behaviour
 class AstralArea : public Lam
 {
 protected:
@@ -383,7 +465,17 @@ public:
 	MP* createMagicParticle();
 };
 
+//Astral Area of LAM which can be included into one AstralArea
+class World : public AstralArea
+{
 
+};
+
+//Special types of World
+class SubWorld : public World
+{
+
+};
 
 // functionality
 
@@ -393,12 +485,12 @@ typedef void(*determination_v)(const int, MP[]);
 void determineMPlist(const int cnt, MP mpa[]);
 MP determineMPfunc(const int cnt, MP mpa[]);
 
-// magicSource
-
-
-
+//default non-alive Essence
 class NonAstralObject : public Essence
 {
+protected:
+	bool is_alive;
+
 public:
 	NonAstralObject() {
 		setName("Some_Object");
@@ -406,7 +498,17 @@ public:
 	}
 };
 
-class MagicUser : public NonAstralObject
+//default alive Essence
+class AliveEssence : public Essence
+{
+public:
+	enum Chakra { Istok = 0, Zarod, Jivot, Persi, Lada, Lelya, Usta, Chelo, Rodnik };
+
+
+};
+
+//default alive affix point of the magical architecture
+class MagicUser : public AliveEssence
 {
 protected:
 	Chakra affixChakra;
@@ -435,6 +537,7 @@ public:
 	}
 };
 
+//container for functions of MagicSources
 struct Functionality {
 
 	/* MP dissapear*/
@@ -454,7 +557,7 @@ struct Functionality {
 
 };
 
-
+//deafult class for elemenets of magical architecture
 class MagicSource
 {
 public:
@@ -493,4 +596,57 @@ public:
 
 };
 
+class Fantom : public MagicSource 
+{};
+
+class Unevennes : public MagicSource
+{};
+
+class Anomaly : public MagicSource
+{
+	/*
+	BlackHole
+	Voka
+	Vavylon
+	Waterfall
+	Timeloop
+	Sarcophagus
+
+	-Ring
+	Arch
+	Mirror
+	Portal
+	Gates
+	-Barrier
+
+	Worldbasis
+	Forcepl
+	Tumulus
+	Fountain
+	Tower
+	Pharos
+
+	*/
+};
+
+
+/* complex Anomalies*/
+
+class Link : public MagicSource, public MagicStream
+{};
+
+class Channel : public Link 
+{};
+
+class Bridge : public Channel
+{};
+
+class Field : public Link 
+{};
+
+class Ring : public Field
+{};
+
+class Barrier : public Bridge
+{};
 
