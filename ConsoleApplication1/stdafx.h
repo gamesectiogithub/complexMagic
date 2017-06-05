@@ -14,9 +14,9 @@
 #include <vector>
 
 #include "constants.h"
-#include "ConsoleMain.h"
+
 #include "ModelObject.h"
-#include "magictheory.h"
+
 
 
 

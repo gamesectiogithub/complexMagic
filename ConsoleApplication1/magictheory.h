@@ -1,17 +1,22 @@
 #pragma once
-
 #include "stdafx.h"
+
+
 
 #define mpn short
 #define MP magicParticle
 
-using namespace std;
+//using namespace std;
 
 enum AstralAreaType { Astral, World, Reflexion, Shadow };
 
+class MagicSource;
+class Lam;
+class AstralArea;
+class Essence;
 
 //using hegaon positions in this version
-class AstralPoint
+struct AstralPoint
 {
 
 /**lets print to console or txt file like 
@@ -37,6 +42,7 @@ hex and neighbors:
 
 protected:
 	AstralAreaType owner;
+	AstralArea* pointer;
 	mpn col;
 	mpn row;
 
@@ -48,7 +54,8 @@ public:
 	AstralPoint(mpn col, mpn row);
 
 protected:
-	
+	AstralArea* getPointer();
+	void setPointer(AstralArea* p);
 	
 };
 
@@ -58,7 +65,6 @@ typedef  mpn(*energonRule_func)(const mpn&, const mpn&);
 mpn reNat_linear(const mpn&, const mpn&);
 mpn reNat_quadro(const mpn&, const mpn&);
 mpn reNat_straight(const mpn&, const mpn&);
-
 
 struct magicParticle {
 
@@ -103,7 +109,7 @@ public:
 
 		for (unsigned i = 0; i < imaginaries.size(); i++)
 		{
-			imaginaries[i] >= 0 ? std::cout << '+' << imaginaries[i] : cout << imaginaries[i];
+			imaginaries[i] >= 0 ? std::cout << '+' << imaginaries[i] : std::cout << imaginaries[i];
 			std::cout << natures[i];
 		}
 
@@ -148,7 +154,7 @@ public:
 		mpn mBase;
 		mBase = base + second.base;
 
-		vector<mpn> mImaginaries;
+		std::vector<mpn> mImaginaries;
 
 		char* mNatures = natures;
 
@@ -213,7 +219,7 @@ public:
 		mpn mBase;
 		mBase = base - second.base;
 
-		vector<mpn> mImaginaries;
+		std::vector<mpn> mImaginaries;
 
 		char* mNatures = natures;
 
@@ -306,42 +312,7 @@ struct NativeEnergons {
 	void setIgnores(char* i);
 };
 
-class MagicSource;
-class Lam;
-class AstralArea;
-
-class Essence : public ModelObject
-{
-protected:
-
-	MagicSource* magicSrcPtr;
-	Lam* currentLAM;
-	Connector* inputConnectors;
-	mpn inputConNumber;
-	Connector outputConnector;
-	NativeEnergons nativeEnergons;
-public:
-
-	Essence();
-	~Essence();
-
-	void setLam(Lam* lam);
-	Lam* getLam();
-
-	void setMagicSource(MagicSource* msptr);
-	bool isMagicSourcePresentation();
-	MagicSource* getMagicSource();
-
-	void setConnectorOutput(Connector outputCon);
-	void setConnectorsInput(Connector* inputConnectors, mpn n);
-	void addConnectorInput(Connector inputConnector);
-	void addConnectorInput(Connector inputConnector);
-	void release();
-
-};
-
-
-//weather phenomenons  exists in AstralAreas
+//weather phenomenons exists in AstralAreas: one phenomenon for one AstralArea
 struct AstralWeather {
 	//TODO: this
 	enum Phenomenon { Flow, Wind, Fog, Storm, Tornado, Uragan, Calm, Swell, Island };
@@ -350,7 +321,7 @@ struct AstralWeather {
 	AstralPoint* p;
 
 	AstralWeather();
-	
+
 	Phenomenon getPhenomenon();
 	void setPhenomenon(Phenomenon p);
 	AstralPoint* getAstralPoint();
@@ -361,7 +332,7 @@ struct AstralWeather {
 };
 
 //one controller for one LAM
-class AstralWeatherController {
+struct AstralWeatherController {
 	Lam* owner;
 
 public:
@@ -385,21 +356,75 @@ public:
 	void levelWeather(mpn col, mpn row, bool up = true);
 	void levelWeather(AstralArea aa, bool up = true);
 
+	//* Astral Weather interactions */
+
+
+
 };
 
+class Connectable // TODO: make abstract
+{
+	Connector* inputConnectors;
+	Connector* outputConnectors;
+public:
+	// TODO: contructors
+	Connectable();
+	~Connectable();
+
+	void setConnectorOutput(Connector outputCon);
+	void setConnectorInput(Connector inputCon);
+	void setConnectorsInput(Connector* inputConnectors, mpn n);
+	void setConnectorsOutput(Connector* outputConnectors, mpn n);
+	void addConnectorInput(Connector inputConnector);
+	void addConnectorOutput(Connector outputConnector);
+	//virtual void release() = 0; //
+};
+
+class Placeable {
+};
+
+class Containable {
+};
+
+// base class for objects
+class Essence : virtual public ModelObject, virtual public Connectable
+{
+protected:
+
+	MagicSource* magicSrcPtr;
+	Lam* currentLAM;
+	
+	mpn inputConNumber;
+	
+	NativeEnergons nativeEnergons;
+public:
+
+	Essence();
+	~Essence();
+
+	void setLam(Lam* lam);
+	Lam* getLam();
+
+	void setMagicSource(MagicSource* msptr);
+	bool isMagicSourcePresentation();
+	MagicSource* getMagicSource();
+
+	
+
+};
 
 //Local area of multiuniverse
-class Lam
+class Lam : public Containable, virtual public ModelObject
 {
 private:
-	char* index; // for global map with many different LAMs
+	AstralWeatherController AWC;
 
 protected:
 	AstralPoint* AstralSpace; // TODO array or any container
 	NativeEnergons nenergons;
-	AstralWeatherController AWC;
 	mpn AstralSpace_width;
 	mpn AstralSpace_length;
+
 
 public:
 	
@@ -413,26 +438,32 @@ public:
 	const NativeEnergons getNativeEnergons();
 	void setNativeEnergons(NativeEnergons ne_);
 
-	void* getAstralPointContent(AstralPoint p);// returns AstralSpace content at the AstralPoint
-	void* getAstralPointContent(mpn col, mpn row);// returns AstralSpace content at the special coordinats
+	// need template
+	void* getAstralSpaceContent(AstralPoint p);// returns AstralSpace content at the AstralPoint
+	void* getAstralSpaceContent(mpn col, mpn row);// returns AstralSpace content at the special coordinats
 	void* getLamContent(); // returns array of pointers to all AstralSpace elements
+	//need template
+	void setAstralSpaceContent(AstralPoint p, void* aa); 
 
 };
 
-class MagicStream {
+class MagicStream : virtual public Connectable, virtual public ModelObject
+{
 public:
-	enum Shapes { Circle, Oval, Triang, Rectang, Fugure };
+	enum Shapes { Circle, Oval, Triang, Rectang, Figure };
 
 protected:
 	std::vector<MP> magicParticles;
 	std::vector<Shapes> shapesConfig;
-	Lam* msLAMs;
-	Connector* connectors;
-	Essence* affixEssence;
+	Lam* traceLAMs;
+	bool isSrcLAM;
+
 
 public: //methods
 	Essence* getAffixPoint();
 	void setAffixPoint(Essence* e);
+
+
 
 };
 
@@ -441,7 +472,7 @@ class MagicParticlesGenerator
 {};
 
 //Astral Area of LAM with the same weather behaviour
-class AstralArea : public Lam
+class AstralArea : public Lam, public Placeable
 {
 protected:
 	AstralAreaType AAType;
@@ -558,7 +589,7 @@ struct Functionality {
 };
 
 //deafult class for elemenets of magical architecture
-class MagicSource
+class MagicSource : virtual public Connectable, virtual public ModelObject, public Placeable
 {
 public:
 	MagicSource();

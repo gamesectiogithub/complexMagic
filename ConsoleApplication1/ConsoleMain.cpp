@@ -1,8 +1,9 @@
 // ConsoleMain.cpp : Defines the entry point for the console application.
 //
-
+#pragma once
 #include "stdafx.h"
-
+#include "magictheory.h"
+#include "ConsoleMain.h"
 using namespace std;
 
 signed char sChar = 45; // 1 byte -128 +127

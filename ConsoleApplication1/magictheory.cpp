@@ -1,5 +1,5 @@
 #pragma once
-
+#include "stdafx.h"
 #include "magictheory.h"
 
 
@@ -47,7 +47,7 @@ magicParticle::MP(mpn mpBase, mpn mpIm, char mpImType) : base(mpBase), order(1),
 	setAutoRule();
 }
 
-magicParticle::MP(mpn mpBase, vector<mpn> mpImaginaries, char* mpNatures) : base(mpBase), type(QNT)
+magicParticle::MP(mpn mpBase, std::vector<mpn> mpImaginaries, char* mpNatures) : base(mpBase), type(QNT)
 {
 	reNaturize = reNat_straight;
 	imaginaries = mpImaginaries;
@@ -217,7 +217,7 @@ MP & operator--(MP & f, int)
 	return g;
 }
 
-ostream & operator<<(ostream & os, const MP & f)
+std::ostream & operator<<(std::ostream & os, const MP & f)
 {
 	os << f.base;
 	for (unsigned i = 0; i < f.imaginaries.size(); i++)
