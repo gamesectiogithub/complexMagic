@@ -8,7 +8,7 @@
 
 //using namespace std;
 
-enum AstralAreaType { Astral, World, Reflexion, Shadow };
+
 
 class MagicSource;
 class Lam;
@@ -18,6 +18,7 @@ class Essence;
 //using hegaon positions in this version
 struct AstralPoint
 {
+	enum AstralPointType { Astral, World, Reflexion, Shadow, ACell, WCell, RCell, SCell };
 
 /**lets print to console or txt file like 
 
@@ -41,8 +42,8 @@ hex and neighbors:
 */
 
 protected:
-	AstralAreaType owner;
-	AstralArea* pointer;
+	AstralPointType owner;
+	AstralArea* owner_ptr;
 	mpn col;
 	mpn row;
 
@@ -364,9 +365,11 @@ public:
 
 class Connectable // TODO: make abstract
 {
-	Connector* inputConnectors;
+protected:
+public: // delete
+	Connector* inputConnectors; //TODO: array or container
 	Connector* outputConnectors;
-public:
+	
 	// TODO: contructors
 	Connectable();
 	~Connectable();
@@ -381,9 +384,48 @@ public:
 };
 
 class Placeable {
+protected:
+public: // delete
+	AstralPoint* outerAstralSpace_ptr; 
+
+
+	Placeable();
+	~Placeable();
+
+	//TODO: getNeighbours
+
+
+
 };
 
 class Containable {
+protected:
+public: // delete
+
+	AstralPoint* AstralSpace; // TODO: array or any container
+	mpn AstralSpace_width;
+	mpn AstralSpace_length;
+
+	Containable(); //create a random AstralSpace 2x2 up to 5x5
+	~Containable(); 
+
+	Containable(mpn ASpace_width, mpn ASpace_length);
+	Containable(mpn ASpace_width_or_length);
+
+	//TODO: need template
+	void* getAstralSpaceContent(AstralPoint* p_center, mpn area_radius);
+	void* getAstralSpaceContent(AstralPoint p);// returns AstralSpace content at the AstralPoint
+	void* getAstralSpaceContent(mpn col, mpn row);// returns AstralSpace content at the special coordinats
+	void* getAstralSpaceContent(); // returns array of pointers to all AstralSpace elements
+								   //need template
+	void setAstralSpaceContent(AstralPoint p, void* aa);
+
+	//TODO: template
+	AstralPoint* getNeighbours(mpn centerCell_col, mpn centerCell_row); // returns array AstralPoint [0]-[5] clockwise
+	AstralPoint* getFarFacetNeighbours(mpn centerCell_col, mpn centerCell_row); // reaturns array AstralPoint [0]-[5] clockwise; distance 1 cell
+	AstralPoint* getFarVertexNeighbours(mpn centerCell_col, mpn centerCell_row); // reaturns array AstralPoint [0]-[5] clockwise; distance 1 cell
+	AstralPoint* getFarNeighbours(mpn centerCell_col, mpn centerCell_row);// reaturns array AstralPoint [0]-[11] clockwise; distance 1 cell
+
 };
 
 // base class for objects
@@ -414,16 +456,15 @@ public:
 };
 
 //Local area of multiuniverse
-class Lam : public Containable, virtual public ModelObject
+class Lam : virtual public Containable, virtual public ModelObject
 {
 private:
 	AstralWeatherController AWC;
 
 protected:
-	AstralPoint* AstralSpace; // TODO array or any container
+	
 	NativeEnergons nenergons;
-	mpn AstralSpace_width;
-	mpn AstralSpace_length;
+	
 
 
 public:
@@ -438,12 +479,7 @@ public:
 	const NativeEnergons getNativeEnergons();
 	void setNativeEnergons(NativeEnergons ne_);
 
-	// need template
-	void* getAstralSpaceContent(AstralPoint p);// returns AstralSpace content at the AstralPoint
-	void* getAstralSpaceContent(mpn col, mpn row);// returns AstralSpace content at the special coordinats
-	void* getLamContent(); // returns array of pointers to all AstralSpace elements
-	//need template
-	void setAstralSpaceContent(AstralPoint p, void* aa); 
+	
 
 };
 
@@ -472,10 +508,10 @@ class MagicParticlesGenerator
 {};
 
 //Astral Area of LAM with the same weather behaviour
-class AstralArea : public Lam, public Placeable
+class AstralArea : public Lam, public Placeable, virtual public Containable
 {
 protected:
-	AstralAreaType AAType;
+	
 	bool hasTime = false;
 	std::string natures;
 	AstralWeather astralWeather;
@@ -485,9 +521,7 @@ public:
 
 	AstralArea();
 	virtual ~AstralArea();
-	AstralArea(AstralAreaType AAType_, AstralPoint* position_);
-	AstralArea(AstralAreaType AAType_, AstralPoint* position_, std::string natures);
-	AstralArea(AstralAreaType AAType_, bool hasTime_, AstralPoint* position_, std::string natures_);
+	
 
 	AstralPoint* getPos();
 	std::string getNatures();
@@ -596,13 +630,11 @@ public:
 	~MagicSource();
 protected:
 	Essence* thisEssence;
-	AstralPoint astralPosition;
 	mpn magicPower;
 	char* energonNatures;
 	bool limitedTime;
 	bool limitedEnergy;
 	Functionality functions;
-	MagicStream stream;
 	NativeEnergons nativeEnergons;
 	Connector* inputConnectors;
 	Connector* outputConnectors;
