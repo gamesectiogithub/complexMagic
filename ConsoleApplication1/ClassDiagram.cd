@@ -1,4 +1,278 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Connectable" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAABBAAAAAAAACAAAAAAQAAAAAAEALAQAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Placeable" Collapsed="true">
+    <Position X="11.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAABAAAABAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Containable" Collapsed="true">
+    <Position X="4.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAQAAABAARAAEAAAAAAAAAAAASAAAABQA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Essence" Collapsed="true">
+    <Position X="7.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAQAgAAAAAAAAABgAAAAAIAACACAAAABAAAgBAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lam" Collapsed="true">
+    <Position X="6.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAACAAAAAAAAAAAAAAAQAFAgAgAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MagicStream" Collapsed="true">
+    <Position X="4.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAEAAAAAAAAAAAAAIAAAAAAAhAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MagicParticlesGenerator" Collapsed="true">
+    <Position X="14" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AstralArea" Collapsed="true">
+    <Position X="8" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAgAAAAAAAAAQAAAIAABIBAACIAgAABA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World" Collapsed="true">
+    <Position X="8" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SubWorld" Collapsed="true">
+    <Position X="8" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NonAstralObject" Collapsed="true">
+    <Position X="6.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AliveEssence" Collapsed="true">
+    <Position X="8.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MagicUser" Collapsed="true">
+    <Position X="8.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAEAAAAEAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MagicSource" Collapsed="true">
+    <Position X="6.5" Y="4.75" Width="1.5" />
+    <InheritanceLine Type="Connectable" ManuallyRouted="true">
+      <Path>
+        <Point X="7.25" Y="1.009" />
+        <Point X="7.25" Y="2.701" />
+        <Point X="6.25" Y="2.701" />
+        <Point X="6.25" Y="4.231" />
+        <Point X="7.477" Y="4.231" />
+        <Point X="7.477" Y="4.579" />
+        <Point X="7.25" Y="4.579" />
+        <Point X="7.25" Y="4.75" />
+      </Path>
+    </InheritanceLine>
+    <InheritanceLine Type="Placeable" ManuallyRouted="true">
+      <Path>
+        <Point X="12.25" Y="4.009" />
+        <Point X="12.25" Y="4.375" />
+        <Point X="9.583" Y="4.375" Type="JumpStart" />
+        <Point X="9.417" Y="4.375" Type="JumpEnd" />
+        <Point X="7.664" Y="4.375" />
+        <Point X="7.664" Y="4.44" />
+        <Point X="7.56" Y="4.44" Type="JumpStart" />
+        <Point X="7.394" Y="4.44" Type="JumpEnd" />
+        <Point X="7.25" Y="4.44" />
+        <Point X="7.25" Y="4.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>CgQBAAAAAAABAAAAAoAAAAAgAWBAABAAEAMIIggEAAI=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Fantom" Collapsed="true">
+    <Position X="6.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Unevennes" Collapsed="true">
+    <Position X="8.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Anomaly" Collapsed="true">
+    <Position X="10.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Link" Collapsed="true">
+    <Position X="4.25" Y="3.25" Width="1.5" />
+    <InheritanceLine Type="MagicSource" ManuallyRouted="true">
+      <Path>
+        <Point X="7.25" Y="4.75" />
+        <Point X="7.25" Y="4.626" />
+        <Point X="7.039" Y="4.626" />
+        <Point X="7.039" Y="4.375" />
+        <Point X="5" Y="4.375" />
+        <Point X="5" Y="4" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Channel" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bridge" Collapsed="true">
+    <Position X="0.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Field" Collapsed="true">
+    <Position X="3.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ring" Collapsed="true">
+    <Position X="3.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Barrier" Collapsed="true">
+    <Position X="0.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModelObject" Collapsed="true">
+    <Position X="2" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAQAAAAAAEAABAAAAAAAAAAEAABAAAAEAACAAAA=</HashCode>
+      <FileName>ModelObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="AstralPoint" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAkAAgAAAACAQBAAgQACAAAQAAAAAAAACAAIBAE=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="magicParticle" Collapsed="true">
+    <Position X="17.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JABCAAABAAAAZAAAGAAoBAAAggABQAAIEAAiAAAAAAg=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Connector" Collapsed="true">
+    <Position X="14" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAABgAAAAAAAAAAA0AAAAAAAAAABAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="NativeEnergons" Collapsed="true">
+    <Position X="14" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAEAAAAIEAAAAAAAAAAIAAAAACAAAAAAAAFAQIA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AstralWeatherController" Collapsed="true">
+    <Position X="17.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEgAAAAgABAAACAACAAAAgCAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Functionality" Collapsed="true">
+    <Position X="15.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAACAAAABAAIAAKAAAAACAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AstralWeather" Collapsed="true">
+    <Position X="15.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAQAQAQABEEIAAAAAEAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="energonRule_func" Collapsed="true">
+    <Position X="17.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="determination_f" Collapsed="true">
+    <Position X="14" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="determination_v" Collapsed="true">
+    <Position X="15.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
   <Font Name="Tahoma" Size="8.25" />
 </ClassDiagram>

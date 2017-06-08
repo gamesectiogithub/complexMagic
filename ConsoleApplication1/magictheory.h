@@ -1,6 +1,6 @@
 #pragma once
 #include "stdafx.h"
-
+#include <map>
 
 
 #define mpn short
@@ -9,16 +9,39 @@
 //using namespace std;
 
 
-
+class AstralPoint;
 class MagicSource;
 class Lam;
 class AstralArea;
 class Essence;
 
+//weather phenomenons exists in AstralAreas: one phenomenon for one AstralArea
+struct AstralWeather {
+	//TODO: this
+	enum Phenomenon { Flow, Wind, Fog, Storm, Tornado, Uragan, Calm, Swell, Island };
+
+	Phenomenon phenomenon;
+	AstralPoint* p;
+
+	AstralWeather(AstralPoint* p_, Phenomenon ph_);
+	AstralWeather(AstralPoint* p_);
+
+	Phenomenon getPhenomenon();
+	void setPhenomenon(Phenomenon p);
+	AstralPoint* getAstralPoint();
+	void setAstralPoint(AstralPoint* a);
+
+	void levelUp();
+	void levelDown();
+};
+
+
 //using hegaon positions in this version
 struct AstralPoint
 {
-	enum AstralPointType { Astral, World, Reflexion, Shadow, ACell, WCell, RCell, SCell };
+	enum AstralPointType { LamCell, AACell };
+
+	// TODO: make it printable
 
 /**lets print to console or txt file like 
 
@@ -42,21 +65,29 @@ hex and neighbors:
 */
 
 protected:
-	AstralPointType owner;
-	AstralArea* owner_ptr;
+	AstralPointType owner_type;
+	Lam* owner_ptr;
 	mpn col;
 	mpn row;
+	
 
 private:
 	AstralPoint();
 	
 public:
 
-	AstralPoint(mpn col, mpn row);
+	AstralPoint(mpn col, mpn row, Lam* lam_ptr);
 
 protected:
-	AstralArea* getPointer();
-	void setPointer(AstralArea* p);
+	const Lam* getPointer();
+	void setPointer(Lam* p);
+	const AstralPointType getOwnerType();
+	void setAstralPointType(AstralPointType apt);
+
+	void setCol(mpn col_);
+	void setRow(mpn row_);
+	void setWeather(AstralWeather ap);
+	const AstralWeather getWeather();
 	
 };
 
@@ -302,8 +333,7 @@ struct NativeEnergons {
 	char* ignores; // permission for SubStructures or Improvements use known or even unknown Energon;
 
 	NativeEnergons();
-	~NativeEnergons();
-
+	
 	char* getFeels();
 	char* getInteracts(); 
 	char* getIgnores();
@@ -313,24 +343,6 @@ struct NativeEnergons {
 	void setIgnores(char* i);
 };
 
-//weather phenomenons exists in AstralAreas: one phenomenon for one AstralArea
-struct AstralWeather {
-	//TODO: this
-	enum Phenomenon { Flow, Wind, Fog, Storm, Tornado, Uragan, Calm, Swell, Island };
-
-	Phenomenon phenomenon;
-	AstralPoint* p;
-
-	AstralWeather();
-
-	Phenomenon getPhenomenon();
-	void setPhenomenon(Phenomenon p);
-	AstralPoint* getAstralPoint();
-	void setAstralPoint(AstralPoint* a);
-
-	void levelUp();
-	void levelDown();
-};
 
 //one controller for one LAM
 struct AstralWeatherController {
@@ -402,7 +414,7 @@ class Containable {
 protected:
 public: // delete
 
-	AstralPoint* AstralSpace; // TODO: array or any container
+	std::map<AstralPoint, AstralWeather> AstralSpace;
 	mpn AstralSpace_width;
 	mpn AstralSpace_length;
 
@@ -458,17 +470,20 @@ public:
 //Local area of multiuniverse
 class Lam : virtual public Containable, virtual public ModelObject
 {
+public: 
+	enum AstralAreaType { AstralArea, LAM, World, Reflexion };
 private:
 	AstralWeatherController AWC;
 
 protected:
 	
 	NativeEnergons nenergons;
-	
+	AstralAreaType type;
 
 
 public:
 	
+
 	Lam();
 	virtual ~Lam();
 	Lam(AstralPoint* space, char* f, char* in, char ig);
@@ -479,7 +494,7 @@ public:
 	const NativeEnergons getNativeEnergons();
 	void setNativeEnergons(NativeEnergons ne_);
 
-	
+	const AstralAreaType getType();
 
 };
 
@@ -514,7 +529,7 @@ protected:
 	
 	bool hasTime = false;
 	std::string natures;
-	AstralWeather astralWeather;
+	AstralWeather commonWeather;
 	MagicStream* superPositonalBackgroundStream;
 	char* nativeEnergons;
 public:

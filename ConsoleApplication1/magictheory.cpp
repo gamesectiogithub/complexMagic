@@ -244,3 +244,145 @@ mpn reNat_quadro(const mpn& a, const mpn& b)
 	mpn A;
 	return A = a*a - b;
 }
+
+AstralPoint::AstralPoint(mpn col_, mpn row_, Lam* lam_ptr)
+{
+	
+	setCol(col_);
+	setRow(row_);
+	setPointer(lam_ptr);
+	
+}
+
+
+const Lam * AstralPoint::getPointer()
+{
+	return owner_ptr;
+}
+
+void AstralPoint::setPointer(Lam * p)
+{
+	owner_ptr = p;
+	p->getType() == Lam::AstralAreaType::LAM ?
+		setAstralPointType(AstralPointType::LamCell) :
+		setAstralPointType(AstralPointType::AACell);
+}
+
+const AstralPoint::AstralPointType AstralPoint::getOwnerType()
+{
+	return owner_type;
+}
+
+void AstralPoint::setAstralPointType(AstralPointType apt)
+{
+	owner_type = apt;
+}
+
+void AstralPoint::setCol(mpn col_)
+{
+	col = col_;
+}
+
+void AstralPoint::setRow(mpn row_)
+{
+	row = row_;
+}
+
+const AstralWeather AstralPoint::getWeather()
+{
+	return getPointer()->AstralSpace[getPointer()->AstralSpace.at(*this)];
+}
+
+const Lam::AstralAreaType Lam::getType()
+{
+	return type;
+}
+
+Connector::Connector(void * owner1, void * owner2)
+{
+	owner_1 = owner1;
+	owner_2 = owner2;
+}
+
+void Connector::setNewOwner(bool flag, void * newOwner)
+{
+	flag ? owner_2 = newOwner : owner_1 = newOwner;
+}
+
+void Connector::setNewOwner(void * owner, void * newOwner)
+{
+	owner_2 == owner ? setNewOwner(true, newOwner) : setNewOwner(false, newOwner);
+}
+
+void * Connector::getOwner(bool flag)
+{
+	return flag ? owner_2 : owner_1;
+}
+
+NativeEnergons::NativeEnergons()
+{
+	setFeels("abcdefg");
+	setInteracts("bcdg");
+	setIgnores("aef");
+}
+
+char * NativeEnergons::getFeels()
+{
+	return feels;
+}
+
+char * NativeEnergons::getInteracts()
+{
+	return interacts;
+}
+
+char * NativeEnergons::getIgnores()
+{
+	return ignores;
+}
+
+void NativeEnergons::setFeels(char * f)
+{
+	feels = f;
+}
+
+void NativeEnergons::setInteracts(char * i)
+{
+	interacts = i;
+}
+
+void NativeEnergons::setIgnores(char * i)
+{
+	ignores = i;
+}
+
+AstralWeather::AstralWeather(AstralPoint * p_, Phenomenon ph_)
+{
+	setAstralPoint(p_);
+	setPhenomenon(ph_);
+}
+
+AstralWeather::AstralWeather(AstralPoint * p_)
+{
+	AstralWeather(p_, Phenomenon::Calm);
+}
+
+AstralWeather::Phenomenon AstralWeather::getPhenomenon()
+{
+	return phenomenon;
+}
+
+void AstralWeather::setPhenomenon(Phenomenon p)
+{
+	phenomenon = p;
+}
+
+AstralPoint * AstralWeather::getAstralPoint()
+{
+	return p;
+}
+
+void AstralWeather::setAstralPoint(AstralPoint * a)
+{
+	p = a;
+}
