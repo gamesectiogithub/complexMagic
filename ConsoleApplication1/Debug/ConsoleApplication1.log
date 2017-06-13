@@ -1,14 +1,4 @@
-﻿  Skipping... (no relevant changes detected)
-  stdafx.cpp
-  magictheory.cpp
-d:\cppler\cmagic\complexmagic\consoleapplication1\magictheory.h(42): warning C4099: 'AstralPoint': type name first seen using 'class' now seen using 'struct'
-  d:\cppler\cmagic\complexmagic\consoleapplication1\magictheory.h(41): note: see declaration of 'AstralPoint'
-  ConsoleMain.cpp
-d:\cppler\cmagic\complexmagic\consoleapplication1\magictheory.h(42): warning C4099: 'AstralPoint': type name first seen using 'class' now seen using 'struct'
-  d:\cppler\cmagic\complexmagic\consoleapplication1\magictheory.h(41): note: see declaration of 'AstralPoint'
-  Generating Code...
+﻿  magictheory.cpp
 d:\cppler\cmagic\complexmagic\consoleapplication1\magictheory.cpp(217): warning C4172: returning address of local variable or temporary: g
-  Skipping... (no relevant changes detected)
-  ModelObject.cpp
   ConsoleApplication1.vcxproj -> D:\cppler\cMagic\complexMagic\Debug\ConsoleApplication1.exe
   ConsoleApplication1.vcxproj -> D:\cppler\cMagic\complexMagic\Debug\ConsoleApplication1.pdb (Full PDB)

@@ -1,12 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Connectable" Collapsed="true">
-    <Position X="6.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAIAABBAAAAAAAACAAAAAAQAAAAAAEALAQAAAAAA=</HashCode>
-      <FileName>magictheory.h</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Placeable" Collapsed="true">
     <Position X="11.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
@@ -93,18 +86,6 @@
   </Class>
   <Class Name="MagicSource" Collapsed="true">
     <Position X="6.5" Y="4.75" Width="1.5" />
-    <InheritanceLine Type="Connectable" ManuallyRouted="true">
-      <Path>
-        <Point X="7.25" Y="1.009" />
-        <Point X="7.25" Y="2.701" />
-        <Point X="6.25" Y="2.701" />
-        <Point X="6.25" Y="4.231" />
-        <Point X="7.477" Y="4.231" />
-        <Point X="7.477" Y="4.579" />
-        <Point X="7.25" Y="4.579" />
-        <Point X="7.25" Y="4.75" />
-      </Path>
-    </InheritanceLine>
     <InheritanceLine Type="Placeable" ManuallyRouted="true">
       <Path>
         <Point X="12.25" Y="4.009" />
@@ -113,8 +94,6 @@
         <Point X="9.417" Y="4.375" Type="JumpEnd" />
         <Point X="7.664" Y="4.375" />
         <Point X="7.664" Y="4.44" />
-        <Point X="7.56" Y="4.44" Type="JumpStart" />
-        <Point X="7.394" Y="4.44" Type="JumpEnd" />
         <Point X="7.25" Y="4.44" />
         <Point X="7.25" Y="4.75" />
       </Path>
@@ -200,17 +179,17 @@
   <Class Name="ModelObject" Collapsed="true">
     <Position X="2" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAEAQAAAAAAEAABAAAAAAAAAAEAABAAAAEAACAAAA=</HashCode>
+      <HashCode>AAAAEAQAAAAAAEAABAAABAAAAAAEAABAAAAEAAAAAAA=</HashCode>
       <FileName>ModelObject.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Struct Name="AstralPoint" Collapsed="true">
-    <Position X="14" Y="1.75" Width="1.5" />
+  <Class Name="Connectable" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAkAAgAAAACAQBAAgQACAAAQAAAAAAAACAAIBAE=</HashCode>
+      <HashCode>AAAAAIAABBAAAAAAAACAAAAAAQAAAAAAEALAQAAAAAA=</HashCode>
       <FileName>magictheory.h</FileName>
     </TypeIdentifier>
-  </Struct>
+  </Class>
   <Struct Name="magicParticle" Collapsed="true">
     <Position X="17.5" Y="2.75" Width="1.5" />
     <TypeIdentifier>
@@ -232,13 +211,6 @@
       <FileName>magictheory.h</FileName>
     </TypeIdentifier>
   </Struct>
-  <Struct Name="AstralWeatherController" Collapsed="true">
-    <Position X="17.5" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAEgAAAAgABAAACAACAAAAgCAAAAAAAAAAAAAAE=</HashCode>
-      <FileName>magictheory.h</FileName>
-    </TypeIdentifier>
-  </Struct>
   <Struct Name="Functionality" Collapsed="true">
     <Position X="15.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
@@ -249,7 +221,21 @@
   <Struct Name="AstralWeather" Collapsed="true">
     <Position X="15.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAQAQAQABEEIAAAAAEAA=</HashCode>
+      <HashCode>AAAAAAAAAAAABAAAAAAABAAAAQAQAQABEEJAAAAAEAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AstralPoint" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgEAEAAgAAAAAAAACAgQACBAAwABAAAAAACAAACAA=</HashCode>
+      <FileName>magictheory.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AstralWeatherController" Collapsed="true">
+    <Position X="17.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEgAAAAgABAAACAACAAAAgAAAAAAAAAAAAAAAE=</HashCode>
       <FileName>magictheory.h</FileName>
     </TypeIdentifier>
   </Struct>

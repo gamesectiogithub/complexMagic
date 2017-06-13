@@ -3,16 +3,6 @@
 #include "magictheory.h"
 
 
-
-/** LAM 
-*/
-
-
-
-
-/** magicParticles
-*/
-
 magicParticle::MP(void) : type(QNT)
 {
 
@@ -245,30 +235,32 @@ mpn reNat_quadro(const mpn& a, const mpn& b)
 	return A = a*a - b;
 }
 
-AstralPoint::AstralPoint(mpn col_, mpn row_, Lam* lam_ptr)
+AstralPoint::AstralPoint(): owner_type(LamCell), col(0), row(0)
+{
+	content_ptr = NULL;
+};
+
+AstralPoint::~AstralPoint()
+{
+	/*delete owner_ptr;
+	delete content_ptr;
+	/*/
+	setContainablePointer(NULL);
+	setContentPointer(NULL);
+	
+}
+
+AstralPoint::AstralPoint(mpn col_, mpn row_)
 {
 	
 	setCol(col_);
 	setRow(row_);
-	setPointer(lam_ptr);
 	
 }
 
 
-const Lam * AstralPoint::getPointer()
-{
-	return owner_ptr;
-}
 
-void AstralPoint::setPointer(Lam * p)
-{
-	owner_ptr = p;
-	p->getType() == Lam::AstralAreaType::LAM ?
-		setAstralPointType(AstralPointType::LamCell) :
-		setAstralPointType(AstralPointType::AACell);
-}
-
-const AstralPoint::AstralPointType AstralPoint::getOwnerType()
+const AstralPoint::AstralPointType AstralPoint::getAstralpointType()
 {
 	return owner_type;
 }
@@ -288,9 +280,25 @@ void AstralPoint::setRow(mpn row_)
 	row = row_;
 }
 
-const AstralWeather AstralPoint::getWeather()
+mpn AstralPoint::getCol()
 {
-	return getPointer()->AstralSpace[getPointer()->AstralSpace.at(*this)];
+	return col;
+}
+
+mpn AstralPoint::getRow()
+{
+	return row;
+}
+
+const Placeable * AstralPoint::getContentPointer()
+{
+	return content_ptr;
+}
+
+void AstralPoint::setContentPointer(Placeable * p)
+{
+	//delete content_ptr;
+	content_ptr = p;
 }
 
 const Lam::AstralAreaType Lam::getType()
@@ -358,6 +366,7 @@ void NativeEnergons::setIgnores(char * i)
 
 AstralWeather::AstralWeather(AstralPoint * p_, Phenomenon ph_)
 {
+	p = new AstralPoint();
 	setAstralPoint(p_);
 	setPhenomenon(ph_);
 }
@@ -365,6 +374,12 @@ AstralWeather::AstralWeather(AstralPoint * p_, Phenomenon ph_)
 AstralWeather::AstralWeather(AstralPoint * p_)
 {
 	AstralWeather(p_, Phenomenon::Calm);
+}
+
+AstralWeather::~AstralWeather()
+{
+	//delete p;
+	setAstralPoint(NULL);
 }
 
 AstralWeather::Phenomenon AstralWeather::getPhenomenon()
@@ -384,5 +399,72 @@ AstralPoint * AstralWeather::getAstralPoint()
 
 void AstralWeather::setAstralPoint(AstralPoint * a)
 {
+	//delete p;
 	p = a;
+}
+
+void AstralWeather::levelUp()
+{
+	setPhenomenon(static_cast<AstralWeather::Phenomenon>((static_cast<int>(getPhenomenon()) + 1) % 9));
+}
+
+void AstralWeather::levelDown()
+{
+	setPhenomenon(static_cast<AstralWeather::Phenomenon>((static_cast<int>(getPhenomenon()) - 1) % 9));
+}
+
+std::string AstralWeather::toString()
+{
+	
+	switch (getPhenomenon())
+	{
+	case (static_cast<Phenomenon>(0)): return FLOW_STR;
+	case (static_cast<Phenomenon>(1)): return WIND_STR;
+	case (static_cast<Phenomenon>(2)): return FOG_STR;
+	case (static_cast<Phenomenon>(3)): return STORM_STR;
+	case (static_cast<Phenomenon>(4)): return TORNADO_STR;
+	case (static_cast<Phenomenon>(5)): return URAGAN_STR;
+	case (static_cast<Phenomenon>(6)): return CALM_STR;
+	case (static_cast<Phenomenon>(7)): return SWELL_STR;
+	case (static_cast<Phenomenon>(8)): return ISLAND_STR;
+
+	default: return DEFAULT_STR;
+	} 
+	
+}
+
+Lam * AstralWeatherController::getLam()
+{
+	return owner;
+}
+
+Placeable::Placeable(AstralPoint* ap_ptr)
+{
+	outerAstralSpace_ptr = ap_ptr;
+}
+
+Placeable::~Placeable()
+{
+	outerAstralSpace_ptr = NULL;
+}
+
+Containable::Containable()
+{
+}
+
+Containable::Containable(mpn ASpace_width, mpn ASpace_length)
+{
+	AstralSpace_length = abs(ASpace_length);
+	AstralSpace_width = abs(ASpace_width);
+	for (unsigned i = 0; i < AstralSpace_length; i++) {
+		for (unsigned j = 0; j < AstralSpace_width; j++) {
+			AstralSpace[AstralPoint(j, i)] = AstralWeather(&AstralPoint(j, i));
+		}
+	}
+
+}
+
+Containable::Containable(mpn ASpace_width_or_length)
+{
+	Containable(ASpace_width_or_length, ASpace_width_or_length)
 }

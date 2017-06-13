@@ -9,22 +9,24 @@
 //using namespace std;
 
 
-class AstralPoint;
+struct AstralPoint;
 class MagicSource;
 class Lam;
 class AstralArea;
 class Essence;
+class Placeable;
 
 //weather phenomenons exists in AstralAreas: one phenomenon for one AstralArea
 struct AstralWeather {
-	//TODO: this
-	enum Phenomenon { Flow, Wind, Fog, Storm, Tornado, Uragan, Calm, Swell, Island };
+	
+	enum Phenomenon { Flow=0, Wind, Fog, Storm, Tornado, Uragan, Calm, Swell, Island=8 };
 
 	Phenomenon phenomenon;
 	AstralPoint* p;
 
 	AstralWeather(AstralPoint* p_, Phenomenon ph_);
 	AstralWeather(AstralPoint* p_);
+	~AstralWeather();
 
 	Phenomenon getPhenomenon();
 	void setPhenomenon(Phenomenon p);
@@ -33,6 +35,8 @@ struct AstralWeather {
 
 	void levelUp();
 	void levelDown();
+
+	std::string toString();
 };
 
 
@@ -41,53 +45,34 @@ struct AstralPoint
 {
 	enum AstralPointType { LamCell, AACell };
 
-	// TODO: make it printable
-
-/**lets print to console or txt file like 
-
- +-+
-+<I>+
- +-+
-
-symbol I is any informational symbol
-space usage: 1 informational symbol in total 15 symbols, 12 symbols can be shared
-hex and neighbors:
-
-       +-+
-    +-+<I>+-+
-   +<I>+-+<I>+
-    +-+<I>+-+
-   +<I>+-+<I>+
-    +-+<I>+-+ 
-       +-+
-
-2d array can be AstralPoints' container, where n = 2k, k := 0..N, each [n] row has Oy offset +1 line down
-*/
 
 protected:
 	AstralPointType owner_type;
-	Lam* owner_ptr;
+	
 	mpn col;
 	mpn row;
+	Placeable* content_ptr;
 	
 
 private:
-	AstralPoint();
 	
-public:
 
-	AstralPoint(mpn col, mpn row, Lam* lam_ptr);
+public:
+	AstralPoint();
+	~AstralPoint();
+	AstralPoint(mpn col, mpn row);
 
 protected:
-	const Lam* getPointer();
-	void setPointer(Lam* p);
-	const AstralPointType getOwnerType();
+	const AstralPointType getAstralpointType();
 	void setAstralPointType(AstralPointType apt);
 
 	void setCol(mpn col_);
 	void setRow(mpn row_);
-	void setWeather(AstralWeather ap);
-	const AstralWeather getWeather();
+	mpn getCol();
+	mpn getRow();
+
+	const Placeable* getContentPointer();
+	void setContentPointer(Placeable* p);
 	
 };
 
@@ -343,71 +328,13 @@ struct NativeEnergons {
 	void setIgnores(char* i);
 };
 
-
-//one controller for one LAM
-struct AstralWeatherController {
-	Lam* owner;
-
-public:
-	AstralWeatherController();
-	~AstralWeatherController();
-
-	void setLam(Lam* lam);
-	Lam* getLam();
-
-	void setWeather(AstralPoint p);
-	void setWeather(mpn col, mpn row);
-	void setWeather(AstralArea aa);
-	void setRandomWeather(); //in this Lam
-	void complementWeather(); //in this Lam
-	void complementWeather(AstralPoint p);
-	void complementWeather(mpn col, mpn row);
-	void complementWeather(AstralArea aa);
-
-	//levelup or leveldown
-	void levelWeather(AstralPoint p, bool up = true);
-	void levelWeather(mpn col, mpn row, bool up = true);
-	void levelWeather(AstralArea aa, bool up = true);
-
-	//* Astral Weather interactions */
-
-
-
-};
-
-class Connectable // TODO: make abstract
-{
-protected:
-public: // delete
-	Connector* inputConnectors; //TODO: array or container
-	Connector* outputConnectors;
-	
-	// TODO: contructors
-	Connectable();
-	~Connectable();
-
-	void setConnectorOutput(Connector outputCon);
-	void setConnectorInput(Connector inputCon);
-	void setConnectorsInput(Connector* inputConnectors, mpn n);
-	void setConnectorsOutput(Connector* outputConnectors, mpn n);
-	void addConnectorInput(Connector inputConnector);
-	void addConnectorOutput(Connector outputConnector);
-	//virtual void release() = 0; //
-};
-
 class Placeable {
 protected:
-public: // delete
+public: // must share informatioanl symbol
 	AstralPoint* outerAstralSpace_ptr; 
 
-
-	Placeable();
-	~Placeable();
-
-	//TODO: getNeighbours
-
-
-
+	Placeable(AstralPoint* ap_ptr);
+	virtual ~Placeable();
 };
 
 class Containable {
@@ -424,6 +351,29 @@ public: // delete
 	Containable(mpn ASpace_width, mpn ASpace_length);
 	Containable(mpn ASpace_width_or_length);
 
+	//TODO: make it printable
+
+	/**lets print Astralpoint to console or txt file like
+
+	 +-+
+	+<I>+
+	 +-+
+
+	symbol I is any informational symbol
+	space usage: 1 informational symbol in total 15 symbols, 12 symbols can be shared
+	hex and neighbors:
+
+	    +-+
+	 +-+<I>+-+
+	+<I>+-+<I>+
+	 +-+<I>+-+
+	+<I>+-+<I>+
+	 +-+<I>+-+
+	    +-+
+
+	2d array can be AstralPoints' container, where n = 2k, k := 0..N, each [n] row has Oy offset +1 line down
+	*/
+
 	//TODO: need template
 	void* getAstralSpaceContent(AstralPoint* p_center, mpn area_radius);
 	void* getAstralSpaceContent(AstralPoint p);// returns AstralSpace content at the AstralPoint
@@ -439,6 +389,60 @@ public: // delete
 	AstralPoint* getFarNeighbours(mpn centerCell_col, mpn centerCell_row);// reaturns array AstralPoint [0]-[11] clockwise; distance 1 cell
 
 };
+
+
+
+//one controller for one LAM
+struct AstralWeatherController {
+	Lam* owner;
+
+public:
+	AstralWeatherController(Lam* l);
+	~AstralWeatherController();
+
+	Lam* getLam();
+
+	void setWeather(AstralPoint p);
+	void setWeather(mpn col, mpn row);
+	void setWeather(AstralArea aa);
+	void setRandomWeather(); //in this Lam
+	void complementWeather(); //in this Lam
+	void complementWeather(AstralPoint p);
+	void complementWeather(mpn col, mpn row);
+	void complementWeather(AstralArea aa);
+
+	//levelup (true) or leveldown (false)
+	void levelWeather(AstralPoint p, bool up = true);
+	void levelWeather(mpn col, mpn row, bool up = true);
+	void levelWeather(AstralArea aa, bool up = true);
+
+	//* Astral Weather interactions */
+
+
+
+};
+
+
+class Connectable // TODO: make abstract
+{
+protected:
+public: // delete
+	Connector* inputConnectors; //TODO: array or container
+	Connector* outputConnectors;
+
+	// TODO: contructors
+	Connectable();
+	~Connectable();
+
+	void setConnectorOutput(Connector outputCon);
+	void setConnectorInput(Connector inputCon);
+	void setConnectorsInput(Connector* inputConnectors, mpn n);
+	void setConnectorsOutput(Connector* outputConnectors, mpn n);
+	void addConnectorInput(Connector inputConnector);
+	void addConnectorOutput(Connector outputConnector);
+	//virtual void release() = 0; //
+};
+
 
 // base class for objects
 class Essence : virtual public ModelObject, virtual public Connectable

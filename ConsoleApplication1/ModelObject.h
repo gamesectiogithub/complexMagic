@@ -18,7 +18,7 @@ public:
 		setNumber(getNumber() + 1);
 		thisnum = getNumber();
 	}
-	~ModelObject();
+	//~ModelObject();
 
 	static int getNumber() {
 		return classNumber;
@@ -35,6 +35,10 @@ public:
 	// TODO: make it =0
 	virtual void setName(std::string s) {
 		name = s + "_" + std::to_string(thisnum);
+	}
+
+	virtual std::string toString() {
+		return "#";
 	}
 	
 

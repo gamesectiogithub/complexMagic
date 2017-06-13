@@ -23,6 +23,7 @@ int main(int argc, char* argv[])
 
 	printChars();
 	*/
+	
 
 	/* ending*/
 	cout << "Press any key and Enter to exit";

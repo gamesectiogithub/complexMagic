@@ -9,6 +9,17 @@
 #define GOLDRATIO 1.6180339887498948 // (whole / big_part) = (big_part / small_part)
 #define E 2,71828182845904523536
 
+#define FLOW_STR "~"
+#define WIND_STR "-"
+#define FOG_STR "F"
+#define STORM_STR "S"
+#define TORNADO_STR "T"
+#define URAGAN_STR "U"
+#define CALM_STR "="
+#define SWELL_STR "W"
+#define ISLAND_STR "I"
+#define DEFAULT_STR "X"
+
 /*
 bool bBool = true; // 1 byte
 
