@@ -245,7 +245,6 @@ AstralPoint::~AstralPoint()
 	/*delete owner_ptr;
 	delete content_ptr;
 	/*/
-	setContainablePointer(NULL);
 	setContentPointer(NULL);
 	
 }
@@ -280,12 +279,12 @@ void AstralPoint::setRow(mpn row_)
 	row = row_;
 }
 
-mpn AstralPoint::getCol()
+mpn AstralPoint::getCol() const
 {
 	return col;
 }
 
-mpn AstralPoint::getRow()
+ mpn AstralPoint::getRow() const
 {
 	return row;
 }
@@ -299,6 +298,17 @@ void AstralPoint::setContentPointer(Placeable * p)
 {
 	//delete content_ptr;
 	content_ptr = p;
+}
+
+ bool operator<(const AstralPoint &  ap, const AstralPoint &  pa)
+{
+
+	return ((pa.getCol()< ap.getCol()) && (pa.getRow() < ap.getRow()));
+}
+
+bool operator>(const AstralPoint &  ap, const AstralPoint &  pa)
+{
+	return (pa.getCol() > ap.getCol() && pa.getRow() > ap.getRow());
 }
 
 const Lam::AstralAreaType Lam::getType()
@@ -366,7 +376,7 @@ void NativeEnergons::setIgnores(char * i)
 
 AstralWeather::AstralWeather(AstralPoint * p_, Phenomenon ph_)
 {
-	p = new AstralPoint();
+	//p = new AstralPoint();
 	setAstralPoint(p_);
 	setPhenomenon(ph_);
 }
@@ -374,6 +384,12 @@ AstralWeather::AstralWeather(AstralPoint * p_, Phenomenon ph_)
 AstralWeather::AstralWeather(AstralPoint * p_)
 {
 	AstralWeather(p_, Phenomenon::Calm);
+}
+
+AstralWeather::AstralWeather()
+{
+	
+
 }
 
 AstralWeather::~AstralWeather()
@@ -448,17 +464,14 @@ Placeable::~Placeable()
 	outerAstralSpace_ptr = NULL;
 }
 
-Containable::Containable()
-{
-}
 
 Containable::Containable(mpn ASpace_width, mpn ASpace_length)
 {
 	AstralSpace_length = abs(ASpace_length);
 	AstralSpace_width = abs(ASpace_width);
-	for (unsigned i = 0; i < AstralSpace_length; i++) {
-		for (unsigned j = 0; j < AstralSpace_width; j++) {
-			AstralSpace[AstralPoint(j, i)] = AstralWeather(&AstralPoint(j, i));
+	for (mpn i = 0; i < AstralSpace_length; i++) {
+		for (mpn j = 0; j < AstralSpace_width; j++) {
+		AstralSpace.insert(std::pair<AstralPoint, AstralWeather>(AstralPoint(j, i), AstralWeather(&AstralPoint(j, i))));
 		}
 	}
 
@@ -466,5 +479,12 @@ Containable::Containable(mpn ASpace_width, mpn ASpace_length)
 
 Containable::Containable(mpn ASpace_width_or_length)
 {
-	Containable(ASpace_width_or_length, ASpace_width_or_length)
+	Containable(ASpace_width_or_length, ASpace_width_or_length);
+}
+
+
+Containable::Containable()
+{
+
+	Containable((mpn)3);
 }

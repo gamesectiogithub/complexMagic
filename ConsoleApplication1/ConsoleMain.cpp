@@ -24,7 +24,14 @@ int main(int argc, char* argv[])
 	printChars();
 	*/
 	
+	
+	Containable* C = new Containable(3,3);
 
+	cout << C->AstralSpace_length << " " << C->AstralSpace_width << endl;
+
+	//delete C;
+
+	
 	/* ending*/
 	cout << "Press any key and Enter to exit";
 	cin >> sChar;

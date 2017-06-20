@@ -1,4 +1,4 @@
 ﻿  magictheory.cpp
-d:\cppler\cmagic\complexmagic\consoleapplication1\magictheory.cpp(217): warning C4172: returning address of local variable or temporary: g
+d:\cppler\cmagic\complexmagic\consoleapplication1\magictheory.cpp(207): warning C4172: returning address of local variable or temporary: g
   ConsoleApplication1.vcxproj -> D:\cppler\cMagic\complexMagic\Debug\ConsoleApplication1.exe
   ConsoleApplication1.vcxproj -> D:\cppler\cMagic\complexMagic\Debug\ConsoleApplication1.pdb (Full PDB)

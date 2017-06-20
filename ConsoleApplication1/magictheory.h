@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include <map>
+#include <array>
 
 
 #define mpn short
@@ -26,6 +27,7 @@ struct AstralWeather {
 
 	AstralWeather(AstralPoint* p_, Phenomenon ph_);
 	AstralWeather(AstralPoint* p_);
+	AstralWeather();
 	~AstralWeather();
 
 	Phenomenon getPhenomenon();
@@ -62,17 +64,19 @@ public:
 	~AstralPoint();
 	AstralPoint(mpn col, mpn row);
 
-protected:
+
 	const AstralPointType getAstralpointType();
 	void setAstralPointType(AstralPointType apt);
 
 	void setCol(mpn col_);
 	void setRow(mpn row_);
-	mpn getCol();
-	mpn getRow();
+	mpn getCol() const;
+	mpn getRow() const;
 
 	const Placeable* getContentPointer();
 	void setContentPointer(Placeable* p);
+
+
 	
 };
 
@@ -346,7 +350,7 @@ public: // delete
 	mpn AstralSpace_length;
 
 	Containable(); //create a random AstralSpace 2x2 up to 5x5
-	~Containable(); 
+	//~Containable(); 
 
 	Containable(mpn ASpace_width, mpn ASpace_length);
 	Containable(mpn ASpace_width_or_length);
@@ -373,6 +377,8 @@ public: // delete
 
 	2d array can be AstralPoints' container, where n = 2k, k := 0..N, each [n] row has Oy offset +1 line down
 	*/
+
+
 
 	//TODO: need template
 	void* getAstralSpaceContent(AstralPoint* p_center, mpn area_radius);
