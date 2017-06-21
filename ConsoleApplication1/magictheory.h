@@ -1,13 +1,15 @@
 #pragma once
 #include "stdafx.h"
 #include <map>
-#include <array>
+#include <vector>
 
 
 #define mpn short
 #define MP magicParticle
 
 //using namespace std;
+
+std::string hexy_string(std::string s_);
 
 
 struct AstralPoint;
@@ -16,6 +18,42 @@ class Lam;
 class AstralArea;
 class Essence;
 class Placeable;
+
+
+//using hexagon positions in this version
+struct AstralPoint
+{
+	enum AstralPointType { LamCell, AACell };
+
+protected:
+	AstralPointType owner_type;
+	mpn col;
+	mpn row;
+	Placeable* content_ptr;
+
+private:
+
+public:
+	AstralPoint();
+	~AstralPoint();
+	AstralPoint(mpn col, mpn row);
+
+
+	const AstralPointType getAstralpointType();
+	void setAstralPointType(AstralPointType apt);
+
+	void setCol(mpn col_);
+	void setRow(mpn row_);
+	mpn getCol() const;
+	mpn getRow() const;
+
+	Placeable* getContentPointer() const;
+	void setContentPointer(Placeable* p);
+
+	std::string toString();
+	
+};
+
 
 //weather phenomenons exists in AstralAreas: one phenomenon for one AstralArea
 struct AstralWeather {
@@ -38,47 +76,10 @@ struct AstralWeather {
 	void levelUp();
 	void levelDown();
 
-	std::string toString();
+	//(deafault = true) returns one string with 1 char if shortView; else  HEXy style like AstralPoint
+	std::string toString(bool shortView = true);
 };
 
-
-//using hegaon positions in this version
-struct AstralPoint
-{
-	enum AstralPointType { LamCell, AACell };
-
-
-protected:
-	AstralPointType owner_type;
-	
-	mpn col;
-	mpn row;
-	Placeable* content_ptr;
-	
-
-private:
-	
-
-public:
-	AstralPoint();
-	~AstralPoint();
-	AstralPoint(mpn col, mpn row);
-
-
-	const AstralPointType getAstralpointType();
-	void setAstralPointType(AstralPointType apt);
-
-	void setCol(mpn col_);
-	void setRow(mpn row_);
-	mpn getCol() const;
-	mpn getRow() const;
-
-	const Placeable* getContentPointer();
-	void setContentPointer(Placeable* p);
-
-
-	
-};
 
 typedef  mpn(*energonRule_func)(const mpn&, const mpn&);
 
@@ -334,20 +335,30 @@ struct NativeEnergons {
 
 class Placeable {
 protected:
-public: // must share informatioanl symbol
+public: 
 	AstralPoint* outerAstralSpace_ptr; 
 
 	Placeable(AstralPoint* ap_ptr);
 	virtual ~Placeable();
+
+	// must share informatioanl symbol
+	virtual std::string toString();
 };
 
 class Containable {
 protected:
 public: // delete
+	typedef std::vector <AstralPoint> AstralPointVector;
+	typedef std::vector <AstralPointVector> APVVector;
 
-	std::map<AstralPoint, AstralWeather> AstralSpace;
+	APVVector colX;
+	AstralPointVector rowY;
+
+	std::map<APVVector, AstralWeather> AstralSpace;
 	mpn AstralSpace_width;
 	mpn AstralSpace_length;
+	//TODO
+	void init(mpn a, mpn b);
 
 	Containable(); //create a random AstralSpace 2x2 up to 5x5
 	//~Containable(); 
@@ -376,6 +387,13 @@ public: // delete
 	    +-+
 
 	2d array can be AstralPoints' container, where n = 2k, k := 0..N, each [n] row has Oy offset +1 line down
+
+		a[0,1]
+	a[0,0]	a[0,2]
+		a[1,1]
+	a[1,0]	a[1,2]
+		a[2,1] 
+
 	*/
 
 

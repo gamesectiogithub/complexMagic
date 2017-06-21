@@ -1,4 +1,14 @@
-﻿  magictheory.cpp
-d:\cppler\cmagic\complexmagic\consoleapplication1\magictheory.cpp(207): warning C4172: returning address of local variable or temporary: g
-  ConsoleApplication1.vcxproj -> D:\cppler\cMagic\complexMagic\Debug\ConsoleApplication1.exe
-  ConsoleApplication1.vcxproj -> D:\cppler\cMagic\complexMagic\Debug\ConsoleApplication1.pdb (Full PDB)
+﻿  Skipping... (no relevant changes detected)
+  stdafx.cpp
+  magictheory.cpp
+d:\cppler\cmagic\complexmagic\consoleapplication1\magictheory.cpp(518): error C2065: 'j': undeclared identifier
+d:\cppler\cmagic\complexmagic\consoleapplication1\magictheory.cpp(519): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'std::pair<Containable::APVVector,AstralWeather>'
+  d:\cppler\cmagic\complexmagic\consoleapplication1\magictheory.cpp(519): note: No constructor could take the source type, or constructor overload resolution was ambiguous
+d:\cppler\cmagic\complexmagic\consoleapplication1\magictheory.cpp(526): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+d:\cppler\cmagic\complexmagic\consoleapplication1\magictheory.cpp(528): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+  Compiling...
+  ConsoleMain.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  ModelObject.cpp

@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "magictheory.h"
+#include <ctime>
 
 
 magicParticle::MP(void) : type(QNT)
@@ -223,6 +224,15 @@ mpn reNat_straight(const mpn& a, const mpn& b)
 	return a;
 }
 
+std::string hexy_string(std::string s_)
+{
+	std::string ss = "";
+	ss += " +-+\n";
+	ss += "+<"; ss += s_; ss += ">+\n";
+	ss += " +-+\n";
+	return ss;
+}
+
 mpn reNat_linear(const mpn& a, const mpn& b)
 {
 	mpn A;
@@ -249,12 +259,12 @@ AstralPoint::~AstralPoint()
 	
 }
 
-AstralPoint::AstralPoint(mpn col_, mpn row_)
+AstralPoint::AstralPoint(mpn col_, mpn row_): owner_type(LamCell)
 {
 	
 	setCol(col_);
 	setRow(row_);
-	
+	content_ptr = NULL;
 }
 
 
@@ -289,7 +299,7 @@ mpn AstralPoint::getCol() const
 	return row;
 }
 
-const Placeable * AstralPoint::getContentPointer()
+Placeable * AstralPoint::getContentPointer() const
 {
 	return content_ptr;
 }
@@ -298,6 +308,13 @@ void AstralPoint::setContentPointer(Placeable * p)
 {
 	//delete content_ptr;
 	content_ptr = p;
+}
+
+std::string AstralPoint::toString()
+{
+	std::string I__ = "";
+	return hexy_string(getContentPointer() != NULL ? I__ = getContentPointer()->toString() : I__ = DEFAULT_STR);
+	
 }
 
  bool operator<(const AstralPoint &  ap, const AstralPoint &  pa)
@@ -383,13 +400,13 @@ AstralWeather::AstralWeather(AstralPoint * p_, Phenomenon ph_)
 
 AstralWeather::AstralWeather(AstralPoint * p_)
 {
-	AstralWeather(p_, Phenomenon::Calm);
+	setAstralPoint(p_);
+	setPhenomenon(Phenomenon::Calm);
 }
 
 AstralWeather::AstralWeather()
 {
-	
-
+	setAstralPoint(NULL);
 }
 
 AstralWeather::~AstralWeather()
@@ -429,23 +446,30 @@ void AstralWeather::levelDown()
 	setPhenomenon(static_cast<AstralWeather::Phenomenon>((static_cast<int>(getPhenomenon()) - 1) % 9));
 }
 
-std::string AstralWeather::toString()
+std::string AstralWeather::toString(bool shortView)
 {
-	
+	std::string I__ = "";
 	switch (getPhenomenon())
 	{
-	case (static_cast<Phenomenon>(0)): return FLOW_STR;
-	case (static_cast<Phenomenon>(1)): return WIND_STR;
-	case (static_cast<Phenomenon>(2)): return FOG_STR;
-	case (static_cast<Phenomenon>(3)): return STORM_STR;
-	case (static_cast<Phenomenon>(4)): return TORNADO_STR;
-	case (static_cast<Phenomenon>(5)): return URAGAN_STR;
-	case (static_cast<Phenomenon>(6)): return CALM_STR;
-	case (static_cast<Phenomenon>(7)): return SWELL_STR;
-	case (static_cast<Phenomenon>(8)): return ISLAND_STR;
+	case (static_cast<Phenomenon>(0)): I__ = FLOW_STR;  break;
+	case (static_cast<Phenomenon>(1)): I__ = WIND_STR;  break;
+	case (static_cast<Phenomenon>(2)): I__ = FOG_STR;  break;
+	case (static_cast<Phenomenon>(3)): I__ = STORM_STR;  break;
+	case (static_cast<Phenomenon>(4)): I__ = TORNADO_STR;  break;
+	case (static_cast<Phenomenon>(5)): I__ = URAGAN_STR;  break;
+	case (static_cast<Phenomenon>(6)): I__ = CALM_STR;  break;
+	case (static_cast<Phenomenon>(7)): I__ = SWELL_STR;  break;
+	case (static_cast<Phenomenon>(8)): I__ = ISLAND_STR;  break;
 
-	default: return DEFAULT_STR;
-	} 
+	default: I__ = DEFAULT_STR; 
+	}
+
+	if (shortView) {
+		return I__;
+	}
+	else {
+		return hexy_string(I__);
+	}
 	
 }
 
@@ -464,27 +488,44 @@ Placeable::~Placeable()
 	outerAstralSpace_ptr = NULL;
 }
 
+std::string Placeable::toString()
+{
+	return DEFAULT_STR;
+}
+
 
 Containable::Containable(mpn ASpace_width, mpn ASpace_length)
 {
-	AstralSpace_length = abs(ASpace_length);
-	AstralSpace_width = abs(ASpace_width);
-	for (mpn i = 0; i < AstralSpace_length; i++) {
-		for (mpn j = 0; j < AstralSpace_width; j++) {
-		AstralSpace.insert(std::pair<AstralPoint, AstralWeather>(AstralPoint(j, i), AstralWeather(&AstralPoint(j, i))));
-		}
-	}
-
+	init(abs(ASpace_length), abs(ASpace_width));
 }
 
 Containable::Containable(mpn ASpace_width_or_length)
 {
-	Containable(ASpace_width_or_length, ASpace_width_or_length);
+	init(abs(ASpace_width_or_length), abs(ASpace_width_or_length));
 }
 
 
-Containable::Containable()
+void Containable::init(mpn a, mpn b)
 {
+	for (mpn i = 0; i < a; i++) {
+		for (mpn j = 0; j < b; j++) {
+			rowY.push_back(AstralPoint(j, i));
+		}
+		colX.push_back(rowY);
+		AstralSpace.insert(
+			std::pair<AstralPointVector,AstralWeather>
+			(
+				colX.back(), AstralWeather(&AstralPoint(j, i))
+			)
+		);
+	}
+}
 
-	Containable((mpn)3);
+	Containable::Containable()
+{
+	srand(time(0));
+	AstralSpace_length = rand()%4 + 1;
+	srand(time(0));
+	AstralSpace_width = rand()%4 + 1;
+	init(AstralSpace_length, AstralSpace_width);
 }

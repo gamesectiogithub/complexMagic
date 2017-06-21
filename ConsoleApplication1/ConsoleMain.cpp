@@ -23,15 +23,21 @@ int main(int argc, char* argv[])
 
 	printChars();
 	*/
-	
-	
-	Containable* C = new Containable(3,3);
 
-	cout << C->AstralSpace_length << " " << C->AstralSpace_width << endl;
+	AstralPoint* ap1 = new AstralPoint();
+	AstralWeather* aw1 = new AstralWeather(ap1);
+	string w = aw1->toString();
+	cout << "Weather : " << w << " ||" << endl;
 
-	//delete C;
-
+	cout << "Print AstralPoint: " << endl;
+	cout << ap1->toString() << endl;
 	
+	cout << "Print AstralWeather short: " << endl;
+	cout << aw1->toString() << endl;
+
+	cout << "Print AstralWeather full: " << endl;
+	cout << aw1->toString(false) << endl;
+
 	/* ending*/
 	cout << "Press any key and Enter to exit";
 	cin >> sChar;
