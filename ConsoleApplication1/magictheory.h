@@ -50,7 +50,7 @@ public:
 	Placeable* getContentPointer() const;
 	void setContentPointer(Placeable* p);
 
-	std::string toString();
+	std::string toString(bool with_new_lines = true);
 	
 };
 
@@ -80,6 +80,18 @@ struct AstralWeather {
 	std::string toString(bool shortView = true);
 };
 
+
+struct AstralCell {
+	AstralPoint astralPoint;
+	AstralWeather astralweather;
+
+	AstralCell() : astralPoint(AstralPoint()), astralweather(NULL) {};
+
+	AstralCell(AstralPoint ap, AstralWeather aw) {
+		astralPoint = ap;
+		astralweather = aw;
+	}
+};
 
 typedef  mpn(*energonRule_func)(const mpn&, const mpn&);
 
@@ -347,17 +359,18 @@ public:
 
 class Containable {
 protected:
+	//TODO: optimize all code
 public: // delete
-	typedef std::vector <AstralPoint> AstralPointVector;
-	typedef std::vector <AstralPointVector> APVVector;
+	typedef std::vector <AstralCell> AstralCellVector;
+	typedef std::vector <AstralCellVector> APMatrix;
+	typedef std::vector <AstralWeather> AWVector;
 
-	APVVector colX;
-	AstralPointVector rowY;
+	APMatrix AstralSpace;
+	APMatrix::iterator xp;
 
-	std::map<APVVector, AstralWeather> AstralSpace;
 	mpn AstralSpace_width;
 	mpn AstralSpace_length;
-	//TODO
+	
 	void init(mpn a, mpn b);
 
 	Containable(); //create a random AstralSpace 2x2 up to 5x5
@@ -396,6 +409,7 @@ public: // delete
 
 	*/
 
+	virtual std::string toString();
 
 
 	//TODO: need template

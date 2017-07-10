@@ -21,7 +21,6 @@
 #define DEFAULT_STR "X"
 
 
-
 /*
 bool bBool = true; // 1 byte
 

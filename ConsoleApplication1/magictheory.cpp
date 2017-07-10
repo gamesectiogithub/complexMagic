@@ -224,12 +224,25 @@ mpn reNat_straight(const mpn& a, const mpn& b)
 	return a;
 }
 
+std::string hexy_string2(std::string s_)
+{
+	std::string ss = "";
+	ss += " +-+";
+	ss += "+<"; ss += s_; ss += ">+";
+	ss += " +-+";
+	return ss;
+}
+
 std::string hexy_string(std::string s_)
 {
 	std::string ss = "";
-	ss += " +-+\n";
-	ss += "+<"; ss += s_; ss += ">+\n";
-	ss += " +-+\n";
+	ss += " +-+";
+	ss += "+<"; ss += s_; ss += ">+";
+	ss += " +-+";
+	
+	ss.insert(4, "\n", 1);
+	ss.insert(10, "\n", 1);
+	ss.insert(15, "\n", 1);
 	return ss;
 }
 
@@ -310,10 +323,15 @@ void AstralPoint::setContentPointer(Placeable * p)
 	content_ptr = p;
 }
 
-std::string AstralPoint::toString()
+std::string AstralPoint::toString(bool with_new_lines)
 {
 	std::string I__ = "";
-	return hexy_string(getContentPointer() != NULL ? I__ = getContentPointer()->toString() : I__ = DEFAULT_STR);
+	if (with_new_lines) {
+		return hexy_string(getContentPointer() != NULL ? I__ = getContentPointer()->toString() : I__ = DEFAULT_STR);
+	}
+	else {
+		return hexy_string2(getContentPointer() != NULL ? I__ = getContentPointer()->toString() : I__ = DEFAULT_STR);
+	}
 	
 }
 
@@ -496,7 +514,7 @@ std::string Placeable::toString()
 
 Containable::Containable(mpn ASpace_width, mpn ASpace_length)
 {
-	init(abs(ASpace_length), abs(ASpace_width));
+	init( abs(ASpace_width), abs(ASpace_length) );
 }
 
 Containable::Containable(mpn ASpace_width_or_length)
@@ -507,18 +525,20 @@ Containable::Containable(mpn ASpace_width_or_length)
 
 void Containable::init(mpn a, mpn b)
 {
+	AstralSpace_length = a;
+	AstralSpace_width = b;
+
+	AstralCellVector* rowY = new AstralCellVector();
 	for (mpn i = 0; i < a; i++) {
 		for (mpn j = 0; j < b; j++) {
-			rowY.push_back(AstralPoint(j, i));
+			rowY->push_back(AstralCell(AstralPoint(i, j), AstralWeather(&AstralPoint(i, j))));
 		}
-		colX.push_back(rowY);
-		AstralSpace.insert(
-			std::pair<AstralPointVector,AstralWeather>
-			(
-				colX.back(), AstralWeather(&AstralPoint(j, i))
-			)
-		);
+		AstralSpace.push_back(*rowY);
+		rowY->resize(0);
 	}
+	delete rowY;
+
+	
 }
 
 	Containable::Containable()
@@ -529,3 +549,46 @@ void Containable::init(mpn a, mpn b)
 	AstralSpace_width = rand()%4 + 1;
 	init(AstralSpace_length, AstralSpace_width);
 }
+
+	std::string Containable::toString()
+	{
+		std::string ss = "";
+		
+		mpn xx = AstralSpace_width * 3 + 2;
+		mpn yy = AstralSpace_length * 2 + 2;
+
+		for (unsigned i = 0; i < xx; i++) {
+			for (unsigned j = 0; j < yy; j++) {
+				ss += " ";
+			}
+			ss += "\n";
+		}
+		mpn pos = 0;
+		mpn it = 1;
+
+		//fisrt pattern
+		while (pos != yy)
+		{
+			ss.insert(it, "   +-+");
+			it = it + 6;
+			pos++;
+		}
+
+		//second pattern
+		for (mpn line = 1; line < xx-1; line=line+2) {
+			for (mpn pos = 1; pos < yy; pos= pos + 4) {
+				ss.insert(pos, "+-+");
+			}
+		}
+
+		//third pattern
+		for (mpn line = 2; line < xx - 2; line = line + 2) {
+			for (mpn pos = 0; pos < yy; pos = pos + 4) {
+				pos==0 ? ss.insert(pos, "+") : ss.insert(pos, "+-+");
+			}
+		}
+
+		//ss[xx + 5 + (it + 1)*xx] = AstralSpace[i][j].astralPoint.toString()[7];
+
+		return ss;
+	}

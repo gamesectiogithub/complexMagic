@@ -38,9 +38,15 @@ int main(int argc, char* argv[])
 	cout << "Print AstralWeather full: " << endl;
 	cout << aw1->toString(false) << endl;
 
+	cout << "Print AstralSpace full: " << endl;
+	Containable* cc = new Containable(5,10);
+	cout << cc->toString() << endl;
+
 	/* ending*/
+	cout << endl;
 	cout << "Press any key and Enter to exit";
 	cin >> sChar;
+
 
 	
     return 0;
